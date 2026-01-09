@@ -2,6 +2,12 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   
+    {
+        path: 'dashboard',
+        loadChildren: () =>
+          import('./features/dashboard/dashboard.routes')
+            .then(m => m.DASHBOARD_ROUTES),
+      },
 
     // 1, redirect root to procurement materials view
   {

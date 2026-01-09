@@ -1,0 +1,15 @@
+<h1>Dashbaord</h1>
+
+
+<!-- clean and scapable dashboard based on the rolee -->
+@if(role() == 'ADMIN'){
+    <app-admin-dashboard />
+}
+
+@if(role() == 'PROCUREMENT'){
+    <app-procurement-dashboard />
+}
+
+@if(role() == 'PRODUCTION'){
+    <app-production-dashboard />
+}

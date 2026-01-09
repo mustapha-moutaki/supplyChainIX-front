@@ -1,0 +1,21 @@
+<!-- Navigation sidebar component that displays role-based menu links -->
+<!-- Container for all navigation elements -->
+<nav>
+    <!-- Dashboard link accessible to all users -->
+    <a routerLink="/dashboard">Dashboard</a>
+    
+    <!-- Conditional rendering: Show User Management link only for ADMIN role -->
+    @if(role == 'ADMIN'){
+        <a routerLink="/users">User Management</a>
+    }
+    
+    <!-- Conditional rendering: Show Procurement link only for PROCUREMENT role -->
+    @if(role == 'PROCUREMENT'){
+        <a routerLink="/procurement">Procurement</a>
+    }
+
+    <!-- Conditional rendering: Show Production link only for PRODUCTION role -->
+    @if(role == 'PRODUCTION'){
+        <a routerLink="/production">Production</a>
+    }
+</nav>
