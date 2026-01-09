@@ -23,10 +23,10 @@ export const routes: Routes = [
   },
 
   // 3. production module lazy loading
-  {
-    path: 'production',
-    loadChildren: () => import('./features/production/production.routes').then(r => r.PRODUCTION_ROUTES)
-  },
+  // {
+  //   path: 'production',
+  //   loadChildren: () => import('./features/production/production.routes').then(r => r.PRODUCTION_ROUTES)
+  // },
 
   // 4. 404 page redirection
   { path: '**', redirectTo: 'procurement/materials' }
