@@ -1,15 +1,19 @@
-<h1>Dashbaord</h1>
+<div class="flex h-screen bg-gray-100">
 
+  <!-- Sidebar -->
+  <app-sidebar [role]="role"></app-sidebar> 
 
-<!-- clean and scapable dashboard based on the rolee -->
-@if(role() == 'ADMIN'){
-    <app-admin-dashboard />
-}
+  <!-- Main Content -->
+  <div class="flex-1 flex flex-col">
 
-@if(role() == 'PROCUREMENT'){
-    <app-procurement-dashboard />
-}
+    <!-- Header -->
+    <app-header></app-header>
 
-@if(role() == 'PRODUCTION'){
-    <app-production-dashboard />
-}
+    <!-- Content -->
+    <main class="flex-1 p-6 overflow-auto">
+      <app-admin-dashboard *ngIf="role === 'ADMIN'"></app-admin-dashboard>
+      <app-production-dashboard *ngIf="role === 'PRODUCTION'"></app-production-dashboard>
+    </main>
+
+  </div>
+</div>

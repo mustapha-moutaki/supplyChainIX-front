@@ -1,13 +1,15 @@
-import { Component, inject } from "@angular/core";
-import { AuthService } from "../../../core/service/auth.service";
-import { RouterLink } from "@angular/router";
+import { Component, Input, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { AuthService } from '../../../core/service/auth.service';
+
 @Component({
-    standalone: true,
-    selector: 'app-sidebar',
-    templateUrl: './sidebar.component.html',
-    imports: [RouterLink]
+  selector: 'app-sidebar',
+  templateUrl: './sidebar.component.html',
+  standalone: true,
+  imports: [CommonModule, RouterModule]
 })
-export class SidebarComponent{
-    private auth  = inject(AuthService)
-    role = this.auth.getRole()
+export class SidebarComponent {
+  private authService = inject(AuthService);
+  role = this.authService.getRole();
 }

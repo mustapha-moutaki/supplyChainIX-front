@@ -1,9 +1,8 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
 @Component({
-    standalone: true,
-    selector:'app-main-dashboard',
-    templateUrl:'./admin-dashboard.component.html',
-
+  standalone: true, 
+  selector: 'app-admin-dashboard',
+  templateUrl: './admin-dashboard.component.html',
 })
-export class AdminDashboardComponent{}
+export class AdminDashboardComponent {}

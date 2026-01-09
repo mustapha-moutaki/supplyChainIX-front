@@ -1,21 +1,23 @@
-<!-- Navigation sidebar component that displays role-based menu links -->
-<!-- Container for all navigation elements -->
-<nav>
-    <!-- Dashboard link accessible to all users -->
-    <a routerLink="/dashboard">Dashboard</a>
-    
-    <!-- Conditional rendering: Show User Management link only for ADMIN role -->
-    @if(role == 'ADMIN'){
-        <a routerLink="/users">User Management</a>
-    }
-    
-    <!-- Conditional rendering: Show Procurement link only for PROCUREMENT role -->
-    @if(role == 'PROCUREMENT'){
-        <a routerLink="/procurement">Procurement</a>
-    }
+<nav class="w-64 bg-white shadow-md flex flex-col p-4 space-y-2">
+  <div class="text-xl font-bold border-b pb-4 mb-4">SupplyChainIX</div>
+  
+  <a routerLink="/dashboard" class="block px-4 py-2 rounded hover:bg-gray-200">Dashboard</a>
+  
+  <!-- Admin Menu -->
+  <ng-container *ngIf="role === 'ADMIN'">
+    <a routerLink="/users" class="block px-4 py-2 rounded hover:bg-gray-200">User Management</a>
+    <a routerLink="/products" class="block px-4 py-2 rounded hover:bg-gray-200">Products</a>
+  </ng-container>
 
-    <!-- Conditional rendering: Show Production link only for PRODUCTION role -->
-    @if(role == 'PRODUCTION'){
-        <a routerLink="/production">Production</a>
-    }
+  <!-- Procurement Menu -->
+  <ng-container *ngIf="role === 'PROCUREMENT'">
+    <a routerLink="/procurement/materials" class="block px-4 py-2 rounded hover:bg-gray-200">Procurement</a>
+    <a routerLink="/raw-materials" class="block px-4 py-2 rounded hover:bg-gray-200">Raw Materials</a>
+  </ng-container>
+
+  <!-- Production Menu -->
+  <ng-container *ngIf="role === 'PRODUCTION'">
+    <a routerLink="/production/orders" class="block px-4 py-2 rounded hover:bg-gray-200">Production Orders</a>
+    <a routerLink="/products" class="block px-4 py-2 rounded hover:bg-gray-200">Products</a>
+  </ng-container>
 </nav>

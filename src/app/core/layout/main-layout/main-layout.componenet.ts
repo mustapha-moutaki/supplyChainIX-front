@@ -1,13 +1,10 @@
-import { Component } from "@angular/core";
-import { RouterOutlet } from "@angular/router";
-
+import { Component, Input } from '@angular/core';
 
 @Component({
-    standalone: true,
-    selector:'app-main-layout',
-    imports: [RouterOutlet, HeaderComponent, SidebarComponent],
-    templateUrl:'./main-layout.component.html',
-    // styleUrls:['./main-layout.component.scss']
+  selector: 'app-sidebar',
+  templateUrl: './sidebar.component.html',
+  standalone: true
 })
-
-export class MianLayoutComponent {}
+export class SidebarComponent {
+  @Input() role!: string;
+}
