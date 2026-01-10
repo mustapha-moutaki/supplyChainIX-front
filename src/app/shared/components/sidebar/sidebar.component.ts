@@ -16,7 +16,7 @@ export class SidebarComponent implements OnInit {
 
   ngOnInit(): void {
     if (!this.role) {
-      this.role = this.authService.getRole();
+      // this.role = this.authService.getRole();
     }
   }
 }

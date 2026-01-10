@@ -7,8 +7,8 @@ import { Product } from '../core/models/product.model';
 @Injectable({ providedIn: 'root' })
 export class ProductApi {
   private http = inject(HttpClient); // itnject HttpdClient it's works like axios but with advanced features
-  private readonly url = `${environment.apiBaseUrl}/products`;
-//   private readonly url = `https://api.restful-api.dev/objects`; // for testing purpose
+//   private readonly url = `${environment.apiBaseUrl}/products`;
+  private readonly url = `https://api.restful-api.dev/objects`; // for testing purpose
 
   getAll(): Observable<Product[]> {
     return this.http.get<Product[]>(this.url);

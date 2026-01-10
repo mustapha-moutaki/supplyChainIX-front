@@ -1,4 +1,6 @@
 import { Routes } from '@angular/router';
+import { AuthLayoutComponent } from './core/layout/auth-layout/auth-layout.component';
+import { authRoutes } from './features/auth/auth.routes';
 
 export const routes: Routes = [
 
@@ -18,6 +20,15 @@ export const routes: Routes = [
         .then(r => r.PRODUCTS_ROUTES),
   },
 
+
+
+   {
+    path: '',
+    component: AuthLayoutComponent,
+    children: [
+      ...authRoutes
+    ]
+  },
 
 
   // redirect root
