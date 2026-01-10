@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-sidebar',
-  templateUrl: '../sidebar.component.html',
+  templateUrl: '../../../shared/components/sidebar/sidebar.component.html',
   standalone: true
 })
 export class SidebarComponent {
