@@ -18,13 +18,7 @@ export const routes: Routes = [
         .then(r => r.PRODUCTS_ROUTES),
   },
 
-  // procurement
-  {
-    path: 'procurement',
-    loadChildren: () =>
-      import('./features/procurement/procurement.routes')
-        .then(r => r.PROCUREMENT_ROUTES),
-  },
+
 
   // redirect root
   {

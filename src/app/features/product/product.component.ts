@@ -1,39 +1,61 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ProductService } from '../../core/service/product.service'; 
+import { ProductService } from '../../core/service/product.service';
+import { Product } from '../../core/models/product.model';
 
 @Component({
-  selector: 'app-products',
+  selector: 'app-product',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css'],
+  templateUrl:'./product.component.html',
 })
-export class ProductsComponent implements OnInit {
-  products: any[] = [];
 
+export class ProductComponent implements OnInit{
+  products: Product[] = [];
+  loading: boolean = false;
+  error: string = '';
   constructor(private productService: ProductService) {}
-
+  
   ngOnInit(): void {
     this.loadProducts();
   }
 
-  loadProducts() {
-    this.productService.getAllProducts().subscribe({
-      next: (data: any[]) => (this.products = data),
-      error: (err) => console.error(err),
+  // loading products method
+  private loadProducts():void{
+    this.loading = true;
+    this.productService.getProducts().subscribe({
+      next: (products)=>{
+        this.products = products;
+        this.loading = false;
+      },
+      error: (err)=>{
+        this.error = 'Failed to load products ';
+        this.loading = false;
+      }
     });
   }
 
-  deleteProduct(id: number) {
+
+  // delete product method
+  deleteProduct(id: number): void{
+    if(!confirm('Are you sure you wanna to delete this product?'))
     this.productService.deleteProduct(id).subscribe({
-      next: () => this.loadProducts(),
-      error: (err) => console.error(err),
-    });
+      next:()=> this.loadProducts(),
+      error:(err) => {
+        this.error = 'Failed to delete product'
+      }
+    })
   }
 
-  addProduct() {
-    // هنا يمكن فتح مودال أو صفحة لإنشاء منتج جديد
-    console.log('Add product clicked');
+  
+  // add the produtc method
+  addProduct(): void{
+   const newProduct: Product ={id: 0, name: 'New Product', description: 'New Product Description', unit: 0, stock: 0};
+   this.productService.createProduct(newProduct).subscribe({
+    next:()=> this.loadProducts(),
+    error:(err) => {
+      this.error = 'Failed to add product'
+    }
+   })
   }
 }

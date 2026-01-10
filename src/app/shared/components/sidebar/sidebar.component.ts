@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/service/auth.service';
@@ -9,7 +9,14 @@ import { AuthService } from '../../../core/service/auth.service';
   standalone: true,
   imports: [CommonModule, RouterModule]
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit {
+  @Input() role?: string;
+
   private authService = inject(AuthService);
-  role = this.authService.getRole();
+
+  ngOnInit(): void {
+    if (!this.role) {
+      this.role = this.authService.getRole();
+    }
+  }
 }
