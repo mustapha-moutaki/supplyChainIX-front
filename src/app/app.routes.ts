@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './core/layout/auth-layout/auth-layout.component';
 import { authRoutes } from './features/auth/auth.routes';
-
+import { roleGuard } from './core/guards/role.guard';
 export const routes: Routes = [
 
   // dashboard
@@ -13,13 +13,18 @@ export const routes: Routes = [
   },
 
   
-  {
-    path: 'products',
-    loadChildren: () =>
-      import('./features/product/products.routes')
-        .then(r => r.PRODUCTS_ROUTES),
-  },
-
+  // {
+  //   path: 'products',
+  //   loadChildren: () =>
+  //     import('./features/product/products.routes')
+  //       .then(r => r.PRODUCTS_ROUTES),
+  // },
+{
+  path: 'products',
+  loadChildren: () => import('./features/product/products.routes').then(r => r.PRODUCTS_ROUTES),
+  canActivate: [roleGuard],
+  data: { role: 'ADMIN' } // Only ADMIN can enter
+},
 
 
    {

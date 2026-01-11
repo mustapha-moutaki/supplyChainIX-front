@@ -1,36 +1,117 @@
-<div class="bg-white shadow rounded p-4">
+<div class="p-6 bg-gray-50 min-h-screen">
+  <div class="max-w-7xl mx-auto bg-white shadow-xl rounded-lg overflow-hidden">
+    
+    <!-- Header Section -->
+    <div class="flex flex-col md:flex-row justify-between items-center p-6 border-b border-gray-200 bg-white">
+      <div>
+        <h2 class="text-2xl font-bold text-gray-800">Product Management</h2>
+        <p class="text-sm text-gray-500 mt-1">View and edit all product and material details</p>
+      </div>
+      <button
+        class="mt-4 md:mt-0 px-5 py-2.5 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2"
+        (click)="addProduct()"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Add New Product
+      </button>
+    </div>
 
-  <div class="flex justify-between mb-4">
-    <h2 class="text-xl font-bold">Products</h2>
-    <button
-      class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-      (click)="addProduct()"
-    >
-      + Add Product
-    </button>
+    <!-- Table Container -->
+    <div class="overflow-x-auto">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-gray-100 text-gray-700 uppercase text-xs font-semibold tracking-wider">
+            <th class="px-6 py-4 border-b">Product</th>
+            <th class="px-6 py-4 border-b text-center">Cost</th>
+            <th class="px-6 py-4 border-b text-center">Stock</th>
+            <th class="px-6 py-4 border-b text-center">Production Time</th>
+            <th class="px-6 py-4 border-b text-center">Materials / BOM</th>
+            <th class="px-6 py-4 border-b text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-200">
+          <tr *ngFor="let product of products" class="hover:bg-gray-50 transition-colors">
+            
+            <!-- Product Info -->
+            <td class="px-6 py-4">
+              <div class="flex flex-col">
+                <span class="text-sm font-bold text-gray-900">{{ product.name }}</span>
+                <span class="text-xs text-gray-500 truncate max-w-[200px]" [title]="product.description">
+                  {{ product.description }}
+                </span>
+              </div>
+            </td>
+
+            <!-- Cost -->
+            <td class="px-6 py-4 text-center">
+              <span class="text-sm font-semibold text-green-600">
+                {{ product.cost | number:'1.2-2' }} 
+                <span class="text-[10px] text-gray-400">USD</span>
+              </span>
+            </td>
+
+            <!-- Stock with Alert Logic -->
+            <td class="px-6 py-4 text-center">
+              <div class="flex flex-col items-center">
+                <span 
+                  [ngClass]="{
+                    'bg-red-100 text-red-700': product.stock! <= product.minimumStock!,
+                    'bg-green-100 text-green-700': product.stock! > product.minimumStock!
+                  }"
+                  class="px-2.5 py-0.5 rounded-full text-xs font-medium">
+                  {{ product.stock }} {{ product.unit }}
+                </span>
+                <span class="text-[10px] text-gray-400 mt-1">Minimum: {{ product.minimumStock }}</span>
+              </div>
+            </td>
+
+            <!-- Production Time -->
+            <td class="px-6 py-4 text-center text-sm text-gray-600">
+               {{ product.productionTime }} <span class="text-xs">min</span>
+            </td>
+
+            <!-- BOM (Bill of Materials) Count -->
+            <td class="px-6 py-4 text-center">
+              <span class="inline-flex items-center px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded border border-blue-200">
+                {{ product.billOfMaterials?.length || 0 }} materials
+              </span>
+            </td>
+
+            <!-- Actions Buttons -->
+            <td class="px-6 py-4 text-center">
+              <div class="flex justify-center gap-3">
+                <!-- Edit Button -->
+                <button 
+                  (click)="editProduct(product)"
+                  class="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors"
+                  title="Edit">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                  </svg>
+                </button>
+
+                <!-- Delete Button -->
+                <button 
+                  (click)="deleteProduct(product.id)"
+                  class="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors"
+                  title="Delete">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                  </svg>
+                </button>
+              </div>
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="products.length === 0 && !loading" class="text-center py-12">
+      <p class="text-gray-500">No products available at the moment.</p>
+    </div>
   </div>
-
-  <table class="w-full border">
-    <thead class="bg-gray-100">
-      <tr>
-        <th class="p-2 text-left">Name</th>
-        <th class="p-2 text-left">Price</th>
-        <th class="p-2 text-left">Qty</th>
-        <th class="p-2 text-center">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let product of products" class="border-t">
-        <td class="p-2">{{ product.name }}</td>
-        <td class="p-2">{{ product.unit }}</td>
-        <td class="p-2">{{ product.stock }}</td>
-        <td class="p-2 text-center">
-          <button class="text-red-600" (click)="deleteProduct(product.id)">
-            Delete
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
 </div>

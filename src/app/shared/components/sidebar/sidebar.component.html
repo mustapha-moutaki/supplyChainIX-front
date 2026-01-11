@@ -1,23 +1,69 @@
-<nav class="w-64 bg-white shadow-md flex flex-col p-4 space-y-2">
-  <div class="text-xl font-bold border-b pb-4 mb-4">SupplyChainIX</div>
-  
-  <a routerLink="/dashboard" class="block px-4 py-2 rounded hover:bg-gray-200">Dashboard</a>
-  
-  <!-- Admin Menu -->
-  <ng-container *ngIf="role === 'ADMIN'">
-    <a routerLink="/users" class="block px-4 py-2 rounded hover:bg-gray-200">User Management</a>
-    <a routerLink="/products" class="block px-4 py-2 rounded hover:bg-gray-200">Products</a>
-  </ng-container>
 
-  <!-- Procurement Menu -->
-  <ng-container *ngIf="role === 'PROCUREMENT'">
-    <a routerLink="/procurement/materials" class="block px-4 py-2 rounded hover:bg-gray-200">Procurement</a>
-    <a routerLink="/raw-materials" class="block px-4 py-2 rounded hover:bg-gray-200">Raw Materials</a>
-  </ng-container>
+<!-- SIDEBAR COMPONENT -->
+<div class="flex flex-col h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+  <!-- Brand Logo Area -->
+  <div class="p-6 flex items-center space-x-3 border-b border-slate-700/50">
+    <div class="w-11 h-11 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-2xl shadow-purple-500/50 animate-pulse">
+      <span class="text-white font-black text-xl">S</span>
+    </div>
+    <span class="text-xl font-black text-white tracking-tight">SupplyChainIX</span>
+  </div>
 
-  <!-- Production Menu -->
-  <ng-container *ngIf="role === 'PRODUCTION'">
-    <a routerLink="/production/orders" class="block px-4 py-2 rounded hover:bg-gray-200">Production Orders</a>
-    <a routerLink="/products" class="block px-4 py-2 rounded hover:bg-gray-200">Products</a>
-  </ng-container>
-</nav>
+  <!-- Navigation Links -->
+  <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto">
+    
+    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-3 mb-3 mt-2">Main Menu</p>
+
+    <a routerLink="/dashboard" 
+       routerLinkActive="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-purple-500/30"
+       class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-700/50 hover:text-white transition-all duration-200 group border border-transparent hover:border-slate-600">
+       <span class="mr-3 text-lg group-hover:scale-110 transition-transform duration-200">#</span> 
+       <span class="font-semibold">Dashboard</span>
+    </a>
+    
+    <!-- Admin Section -->
+    <ng-container *ngIf="role === 'ADMIN'">
+      <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-3 mt-6 mb-3">Administration</p>
+      <a routerLink="/users" routerLinkActive="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-purple-500/30"
+         class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-700/50 hover:text-white transition-all duration-200 border border-transparent hover:border-slate-600">
+         <span class="mr-3 text-lg">👥</span> 
+         <span class="font-semibold">User Management</span>
+      </a>
+      <a routerLink="/products" routerLinkActive="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-purple-500/30"
+         class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-700/50 hover:text-white transition-all duration-200 border border-transparent hover:border-slate-600">
+         <span class="mr-3 text-lg">📦</span> 
+         <span class="font-semibold">Products</span>
+      </a>
+    </ng-container>
+
+    <!-- Procurement Section -->
+    <ng-container *ngIf="role === 'PROCUREMENT'">
+      <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-3 mt-6 mb-3">Sourcing</p>
+      <a routerLink="/procurement/materials" routerLinkActive="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-purple-500/30"
+         class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-700/50 hover:text-white transition-all duration-200 border border-transparent hover:border-slate-600">
+         <span class="mr-3 text-lg">🛒</span> 
+         <span class="font-semibold">Procurement</span>
+      </a>
+      <a routerLink="/raw-materials" routerLinkActive="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-purple-500/30"
+         class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-700/50 hover:text-white transition-all duration-200 border border-transparent hover:border-slate-600">
+         <span class="mr-3 text-lg">🪵</span> 
+         <span class="font-semibold">Raw Materials</span>
+      </a>
+    </ng-container>
+
+    <!-- Production Section -->
+    <ng-container *ngIf="role === 'PRODUCTION'">
+      <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-3 mt-6 mb-3">Manufacturing</p>
+      <a routerLink="/production/orders" routerLinkActive="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-purple-500/30"
+         class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-700/50 hover:text-white transition-all duration-200 border border-transparent hover:border-slate-600">
+         <span class="mr-3 text-lg">🛠️</span> 
+         <span class="font-semibold">Production Orders</span>
+      </a>
+      <a routerLink="/products" routerLinkActive="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-purple-500/30"
+         class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-700/50 hover:text-white transition-all duration-200 border border-transparent hover:border-slate-600">
+         <span class="mr-3 text-lg">📦</span> 
+         <span class="font-semibold">Products</span>
+      </a>
+    </ng-container>
+
+  </nav>

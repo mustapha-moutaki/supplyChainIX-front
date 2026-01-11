@@ -9,14 +9,19 @@ import { AuthService } from '../../../core/service/auth.service';
   standalone: true,
   imports: [CommonModule, RouterModule]
 })
+
+
 export class SidebarComponent implements OnInit {
-  @Input() role?: string;
+  @Input() role?: string; 
 
   private authService = inject(AuthService);
 
   ngOnInit(): void {
+    // If the role wasn't passed by the parent via [role]="...", 
+    // we get it from our service
     if (!this.role) {
-      // this.role = this.authService.getRole();
+      this.role = this.authService.getRole() || ''; 
     }
+    console.log('Sidebar loaded with role:', this.role);
   }
 }

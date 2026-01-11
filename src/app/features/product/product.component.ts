@@ -58,4 +58,12 @@ export class ProductComponent implements OnInit{
     }
    })
   }
+
+
+   // Edit product (placeholder)
+  editProduct(product: Product): void {
+    // For now, just log it
+    console.log('Edit product clicked:', product);
+    // Later you can open a modal or navigate to edit page
+  }
 }
