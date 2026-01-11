@@ -44,7 +44,7 @@ export class AuthService {
   }
 
   // get access token
-  getAccessToken(): string | null {
+   getAccessToken(): string | null {
     return this.accessToken;
   }
 }

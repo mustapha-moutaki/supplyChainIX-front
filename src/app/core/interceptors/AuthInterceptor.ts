@@ -1,31 +1,48 @@
-import { Injectable } from "@angular/core";
+// import { HttpInterceptorFn } from '@angular/common/http';
 
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
+// export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
+//   const token = localStorage.getItem('accessToken');
 
-import { Observable } from "rxjs";
+//   console.log('[Interceptor] original request:', req.url);
+//   console.log('[Interceptor] token:', token);
 
+//   if (token) {
+//     const authReq = req.clone({
+//       setHeaders: {
+//         Authorization: `Bearer ${token}`,
+//       },
+//     });
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+//     console.log('[Interceptor] Authorization header added');
+//     return next(authReq);
+//   }
 
-  // intercept method is called automatically for every HTTP request
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+//   console.warn('[Interceptor] No token found');
+//   return next(req);
+// };
 
-    // Get the token from local storage
-    const token = localStorage.getItem('accessToken');
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { AuthService } from '../service/auth.service';
 
-    // If token exists, clone the request and add the Authorization header
-    if (token) {
-      const cloned = req.clone({
-        headers: req.headers.set('Authorization', `Bearer ${token}`) // Add Bearer token to header
-      });
+export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
+  const authService = inject(AuthService);
+  const token = authService.getAccessToken;
 
-      // Pass the cloned request with the header to the next handler
-      return next.handle(cloned);
-    }
-
-    // If no token, pass the original request without modifying it
-    return next.handle(req);
+ 
+  if (req.url.includes('/auth')) {
+    return next(req);
   }
-}
-// i jsut have to understand nfew things about method interceptr
+
+  if (token) {
+    const authReq = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
+    return next(authReq);
+  }
+
+  return next(req);
+};
