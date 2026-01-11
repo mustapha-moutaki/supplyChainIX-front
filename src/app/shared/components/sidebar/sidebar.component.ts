@@ -12,8 +12,8 @@ import { AuthService } from '../../../core/service/auth.service';
 
 
 export class SidebarComponent implements OnInit {
-  @Input() role?: string; 
-
+  // @Input() role?: string; 
+ @Input() role?: string | null;
   private authService = inject(AuthService);
 
   ngOnInit(): void {
