@@ -1,0 +1,22 @@
+import { CommonModule } from '@angular/common';
+import { Component, Input, Output } from '@angular/core';
+import { EventEmitter } from '@angular/core';
+
+
+@Component({
+  selector: 'app-modal',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl: './modal.component.html',
+  // styleUrl: './modal.component.css' we use taiwlind
+})
+export class ModalComponent {
+
+  @Input() open = false; // the parent controller
+  @Output() close = new EventEmitter<void>(); 
+
+  onClose(){
+    this.close.emit();
+  }
+
+}

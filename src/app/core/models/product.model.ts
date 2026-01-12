@@ -1,5 +1,5 @@
 export interface Product {
-  id: number;
+  id: 0 ;
   name: string;
   description: string;
   productionTime?: number;
@@ -7,7 +7,7 @@ export interface Product {
   stock?: number;
   minimumStock?: number;
   unit?: string | number;
-  billOfMaterials?: {
+ billOfMaterials: {        // removed ? to make it required
     idBOM: number;
     materialId: number;
     materialName: string;

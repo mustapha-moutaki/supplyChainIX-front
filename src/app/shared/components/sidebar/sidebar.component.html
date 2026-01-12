@@ -1,5 +1,6 @@
-<div class="flex flex-col h-full bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+<div class="flex flex-col h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
   
+  <!-- Logo / Brand -->
   <div class="p-6 flex items-center space-x-3 border-b border-slate-700/50">
     <div class="w-11 h-11 bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 rounded-2xl flex items-center justify-center shadow-2xl shadow-purple-500/50 animate-pulse">
       <span class="text-white font-black text-xl">S</span>
@@ -7,18 +8,13 @@
     <span class="text-xl font-black text-white tracking-tight">SupplyChainIX</span>
   </div>
 
+  <!-- Sidebar Navigation -->
   <nav class="flex-1 p-4 space-y-1.5 overflow-y-auto">
-    
+
+    <!-- Main Menu Header -->
     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-3 mb-3 mt-2">Main Menu</p>
 
-    <!-- <a routerLink="/dashboard" 
-       [routerLinkActiveOptions]="{exact: true}"
-       routerLinkActive="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-purple-500/30"
-       class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-700/50 hover:text-white transition-all duration-200 group border border-transparent hover:border-slate-600">
-       <span class="mr-3 text-lg group-hover:scale-110 transition-transform duration-200">#</span> 
-       <span class="font-semibold">Dashboard</span>
-    </a> -->
-    
+    <!-- Products (existing) -->
     <ng-container *ngIf="role === 'ADMIN'">
       <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest px-3 mt-6 mb-3">Administration</p>
       
@@ -28,10 +24,54 @@
          <span class="mr-3 text-lg">📦</span> 
          <span class="font-semibold">Products</span>
       </a>
+
+      <!-- New Sections -->
+      <a routerLink="/dashboard/suppliers"
+         routerLinkActive="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-purple-500/30"
+         class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-700/50 hover:text-white transition-all duration-200 border border-transparent hover:border-slate-600">
+         <span class="mr-3 text-lg">🤝</span>
+         <span class="font-semibold">Manage Suppliers</span>
+      </a>
+
+      <a routerLink="/dashboard/orders"
+         routerLinkActive="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-purple-500/30"
+         class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-700/50 hover:text-white transition-all duration-200 border border-transparent hover:border-slate-600">
+         <span class="mr-3 text-lg">🛒</span>
+         <span class="font-semibold">Manage Orders</span>
+      </a>
+
+      <a routerLink="/dashboard/production-orders"
+         routerLinkActive="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-purple-500/30"
+         class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-700/50 hover:text-white transition-all duration-200 border border-transparent hover:border-slate-600">
+         <span class="mr-3 text-lg">🏭</span>
+         <span class="font-semibold">Manage Production Orders</span>
+      </a>
+
+      <a routerLink="/dashboard/customers"
+         routerLinkActive="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-purple-500/30"
+         class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-700/50 hover:text-white transition-all duration-200 border border-transparent hover:border-slate-600">
+         <span class="mr-3 text-lg">👥</span>
+         <span class="font-semibold">Manage Customers</span>
+      </a>
+
+      <a routerLink="/dashboard/delivery"
+         routerLinkActive="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-purple-500/30"
+         class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-700/50 hover:text-white transition-all duration-200 border border-transparent hover:border-slate-600">
+         <span class="mr-3 text-lg">🚚</span>
+         <span class="font-semibold">Manage Delivery</span>
+      </a>
+
+      <a routerLink="/dashboard/raw-materials"
+         routerLinkActive="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold shadow-lg shadow-purple-500/30"
+         class="flex items-center px-4 py-3 rounded-xl text-slate-300 hover:bg-slate-700/50 hover:text-white transition-all duration-200 border border-transparent hover:border-slate-600">
+         <span class="mr-3 text-lg">⚙️</span>
+         <span class="font-semibold">Manage Raw Materials</span>
+      </a>
     </ng-container>
 
   </nav>
 
+  <!-- User Info Footer -->
   <div class="p-4 border-t border-slate-700/50">
     <div class="bg-slate-700/30 backdrop-blur-sm p-3.5 rounded-xl flex items-center border border-slate-600/30 hover:bg-slate-700/50 transition-all duration-200">
       <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 mr-3 flex items-center justify-center shadow-lg shadow-purple-500/30">
