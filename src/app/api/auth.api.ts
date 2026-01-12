@@ -33,6 +33,7 @@ export class AuthApi {
     return this.http.post<void>(`${this.baseUrl}/logout`,{},  { withCredentials: true }  );
   }
 
+  
   // Refresh access token
   refresh(): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(
