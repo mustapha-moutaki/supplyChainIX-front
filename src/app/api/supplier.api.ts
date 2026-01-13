@@ -1,30 +1,26 @@
-import { inject, Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
-import { environment} from "../../environments/environment.development";
-import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { inject, Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment.development';
+import { Observable, map } from 'rxjs';
+import { Supplier } from '../core/models/supplier.model';
 
-@Injectable({ providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
+export class SupplierService {
 
-export class Supplier{
-    private http = inject(HttpClient)
-    private readonly url = `${environment.apiBaseUrl}/suppliers`;
+  private http = inject(HttpClient);
+  private readonly url = `${environment.apiBaseUrl}/suppliers`;
 
+  getAll(): Observable<Supplier[]> {
+    return this.http.get<{ data: { content: Supplier[] } }>(this.url).pipe(
+      map(res => res.data.content)
+    );
+  }
 
-    getAll(): Observable<Supplier[]>{
-        console.log("this.url")
-        return this.http.get<any>(this.url).pipe(
-            map(res => res.data.content)
-        )
-    };
+  getById(id: number): Observable<Supplier> {
+    return this.http.get<Supplier>(`${this.url}/${id}`);
+  }
 
-    getById(id: number): Observable<Peoduct>{
-        return this.http.get(`${this.url}/${id}`);
-    }
-
-    create(product:Product):Observable<Product>{
-        return this.http.post(this.url, product)
-    }
-
-    
+  create(supplier: Supplier): Observable<Supplier> {
+    return this.http.post<Supplier>(this.url, supplier);
+  }
 }
