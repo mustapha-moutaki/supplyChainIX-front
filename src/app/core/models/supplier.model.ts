@@ -6,5 +6,5 @@ export interface Supplier{
     phone:string;
     rating:number;
     leadTime: number;
-    materialIds: []
+    materialIds: any[]
 }

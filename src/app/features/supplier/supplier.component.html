@@ -1,1 +1,104 @@
-<p>supplier works!</p>
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-center p-6 border-b border-gray-200 bg-white">
+  <div>
+    <h2 class="text-2xl font-bold text-gray-800">Supplier Management</h2>
+    <p class="text-sm text-gray-500 mt-1">Manage your vendor relationships and delivery performance</p>
+  </div>
+  <button
+    class="mt-4 md:mt-0 px-5 py-2.5 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+    </svg>
+    Add New Supplier
+  </button>
+</div>
+
+<!-- Table Container -->
+<div class="overflow-x-auto bg-white">
+  <table class="w-full text-left border-collapse">
+    <thead>
+      <tr class="bg-gray-50 text-gray-700 uppercase text-xs font-semibold tracking-wider border-b border-gray-200">
+        <th class="px-6 py-4">Supplier Name</th>
+        <th class="px-6 py-4">Contact Info</th>
+        <th class="px-6 py-4 text-center">Rating</th>
+        <th class="px-6 py-4 text-center">Lead Time</th>
+        <th class="px-6 py-4 text-center">Materials Provided</th>
+        <th class="px-6 py-4 text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-gray-200">
+      <tr *ngFor="let supplier of suppliers()" class="hover:bg-gray-50 transition-colors">
+        
+        <!-- Name & Contact Person -->
+        <td class="px-6 py-4">
+          <div class="flex flex-col">
+            <span class="text-sm font-bold text-gray-900">{{ supplier.name }}</span>
+            <span class="text-xs text-gray-500 italic">{{ supplier.contact }}</span>
+          </div>
+        </td>
+
+        <!-- Email & Phone -->
+        <td class="px-6 py-4">
+          <div class="flex flex-col text-sm">
+            <span class="text-gray-800 font-medium flex items-center gap-1">
+              <span class="text-gray-400 text-xs">📞</span> {{ supplier.phone }}
+            </span>
+            <span class="text-gray-500 text-xs flex items-center gap-1">
+              <span class="text-gray-400 text-xs">✉️</span> {{ supplier.email }}
+            </span>
+          </div>
+        </td>
+
+        <!-- Rating -->
+        <td class="px-6 py-4 text-center">
+          <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-100 text-amber-700 border border-amber-200">
+            ⭐ {{ supplier.rating }}
+          </span>
+        </td>
+
+        <!-- Lead Time -->
+        <td class="px-6 py-4 text-center">
+          <div class="flex flex-col items-center">
+            <span class="text-sm font-semibold text-slate-700">{{ supplier.leadTime }} Days</span>
+            <span class="text-[10px] text-gray-400 uppercase tracking-tighter">Avg. Delivery</span>
+          </div>
+        </td>
+
+        <!-- Materials Count -->
+        <td class="px-6 py-4 text-center">
+          <span class="inline-flex items-center px-2 py-1 bg-indigo-50 text-indigo-700 text-xs rounded-md border border-indigo-100">
+            {{ supplier.materialIds.length }} Materials
+          </span>
+        </td>
+
+        <!-- Actions -->
+        <td class="px-6 py-4 text-center">
+          <div class="flex justify-center gap-2">
+            <button  class="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+            </button>
+            <button class="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Empty State -->
+<div *ngIf="suppliers().length === 0 && !loading" class="text-center py-16 bg-white">
+  <div class="text-slate-300 mb-4">
+    <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+    </svg>
+  </div>
+  <p class="text-gray-500 font-medium">No suppliers found.</p>
+  <p class="text-gray-400 text-sm">Click the button above to add your first supplier.</p>
+</div>

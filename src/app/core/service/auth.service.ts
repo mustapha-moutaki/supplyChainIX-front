@@ -68,6 +68,7 @@ import { LoginRequest } from "../models/auth.model";
 import { tap, catchError } from "rxjs/operators";
 import { Observable, throwError } from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { environment } from "../../../environments/environment.development";
 
 // NEW CHANGE: Define interface for refresh token response
 interface RefreshTokenResponse {
@@ -84,7 +85,7 @@ export class AuthService {
   private accessToken: string | null = null;
   
   // NEW CHANGE: Add your API URL here (adjust to your backend URL)
-  private readonly API_URL = 'http://your-api-url'; // TODO: Replace with your actual API URL
+  private readonly API_URL = `${environment.apiBaseUrl}}`; // TODO: Replace with your actual API URL
 
   // Helper to check if we are running in the browser - it's important if we use SSR
   private isBrowser(): boolean {

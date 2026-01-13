@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { AdminDashboardComponent } from '../admin/admin-dashboard.component';
 import { ProductComponent } from '../product/product.component';
+import { SupplierComponent } from '../supplier/supplier.component';
 
 export const DASHBOARD_ROUTES: Routes = [
   {
@@ -15,7 +16,12 @@ export const DASHBOARD_ROUTES: Routes = [
       {
         path: 'products',
         component: ProductComponent
-      }
+      },
+        {
+        path: 'suppliers', // This creates the /dashboard/suppliers path
+        component:SupplierComponent
+      },
+
     ]
   }
 ];

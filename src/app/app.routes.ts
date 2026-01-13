@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './core/layout/auth-layout/auth-layout.component';
 import { authRoutes } from './features/auth/auth.routes';
 import { authGuard } from './core/guards/role.guard';
+import { SupplierComponent } from './features/supplier/supplier.component';
 export const routes: Routes = [
   {
     path: 'dashboard',
@@ -13,6 +14,11 @@ export const routes: Routes = [
     path: '',
     component: AuthLayoutComponent,
     children: [...authRoutes]
+  },
+
+  {
+    path: '',
+    component: SupplierComponent
   },
   {
     path: '',
