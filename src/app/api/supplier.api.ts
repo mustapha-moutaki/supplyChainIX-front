@@ -24,3 +24,4 @@ export class SupplierService {
     return this.http.post<Supplier>(this.url, supplier);
   }
 }
+
