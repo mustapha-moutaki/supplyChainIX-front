@@ -51,4 +51,23 @@ export class SupplierComponent implements OnInit {
 
    this.suppliers.update(list => [...list, supplier]);
 }
+
+  deleteSupplier(id: string | undefined) {
+    console.log("delte suppleir is  not working")
+      if (!id) return;
+
+  if (!confirm("Are you sure you want to delete this supplier?")) return;
+
+  this.supplierService.deleteSupplier(id).subscribe({
+    next: () => {
+  
+      this.suppliers.update(list => list.filter(s => s.id !== id));
+    
+    },
+    error: (err) => {
+      console.log("Failed to delete this supplier", err);
+    }
+  });
+}
+
 }

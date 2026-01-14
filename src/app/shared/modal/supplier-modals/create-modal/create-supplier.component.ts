@@ -19,6 +19,7 @@ export class CreateSupplierComponent {
   @Output() created = new EventEmitter<Supplier>();
 
   // Form fields
+  id= ''
   name = '';
   contact = '';
   email = '';
@@ -51,6 +52,7 @@ export class CreateSupplierComponent {
     this.error.set(null);
 
     const supplier: Supplier = {
+      id : '',
       name: this.name,
       contact: this.contact,
       email: this.email,

@@ -51,7 +51,7 @@
 }
 
 
-  delete(id:number): Observable<void> {
+  delete(id:string): Observable<void> {
     return this.http.delete<void>(`${this.url}/${id}`);
   }
   }
