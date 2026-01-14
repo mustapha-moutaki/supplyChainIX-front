@@ -24,4 +24,8 @@ export class SupplierService {
     getSuppliers(): Observable<Supplier[]> {
         return this.supplierApi.getAll();
     }
+
+    creatSupplier(supplier: Supplier):Observable<Supplier>{
+        return this.supplierApi.create(supplier);
+    }
 }

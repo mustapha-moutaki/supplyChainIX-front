@@ -6,6 +6,7 @@
   </div>
   <button
     class="mt-4 md:mt-0 px-5 py-2.5 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2"
+    (click)="openCreateModal()"
   >
     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
@@ -102,3 +103,8 @@
   <p class="text-gray-500 font-medium">No suppliers found.</p>
   <p class="text-gray-400 text-sm">Click the button above to add your first supplier.</p>
 </div>
+<app-create-supplier
+  [isOpen]="isCreateModalOpen()"
+  (close)="closeCreateModal()"
+  (created)="onSupplierCreated($event)">
+</app-create-supplier>

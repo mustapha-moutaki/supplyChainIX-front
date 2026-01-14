@@ -184,13 +184,11 @@ export class AuthService {
       return throwError(() => new Error('No refresh token available'));
     }
 
-    // NEW CHANGE: Call your backend's refresh endpoint
     // Make sure this endpoint exists in your backend API
     return this.http.post<RefreshTokenResponse>(`${this.API_URL}/auth/refresh`, { 
       refreshToken 
     }).pipe(
       tap(response => {
-        // NEW CHANGE: Store the new tokens received from backend
         // Update in-memory token
         this.accessToken = response.accessToken;
         
