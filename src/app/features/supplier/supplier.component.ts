@@ -53,7 +53,6 @@ export class SupplierComponent implements OnInit {
 }
 
   deleteSupplier(id: string | undefined) {
-    console.log("delte suppleir is  not working")
       if (!id) return;
 
   if (!confirm("Are you sure you want to delete this supplier?")) return;
