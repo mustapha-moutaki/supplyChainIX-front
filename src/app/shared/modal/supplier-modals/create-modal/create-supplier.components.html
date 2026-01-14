@@ -1,68 +1,83 @@
-<!-- Backdrop (Only visible if isOpen is true) -->
-<div *ngIf="isOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm transition-opacity">
-  
-  <!-- Modal Card -->
-  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden transform transition-all animate-in fade-in zoom-in duration-200">
-    
+<div *ngIf="isOpen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-xl overflow-hidden">
+
     <!-- Header -->
-    <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
+    <div class="px-6 py-4 border-b flex justify-between items-center bg-slate-50/50">
       <h3 class="text-xl font-bold text-slate-800">Register New Supplier</h3>
-      <button (click)="closeModal()" class="p-2 hover:bg-slate-200 rounded-full transition-colors text-slate-500">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L12 12m0 0l6 6M12 12l6-6M12 12l-6-6"></path>
-        </svg>
-      </button>
+      <button (click)="closeModal()" class="p-2 hover:bg-slate-200 rounded-full text-slate-500">✕</button>
     </div>
 
-    <!-- Form Content -->
-    <div class="p-6">
-  <form class="space-y-4" (ngSubmit)="saveSupplier()">
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-    <!-- Name -->
-    <div class="flex flex-col gap-1">
-      <label>Supplier Name</label>
-      <input type="text" [(ngModel)]="name" name="name" required />
+    <!-- Form -->
+    <form class="p-6 space-y-4" (ngSubmit)="saveSupplier()">
+
+      <!-- Fields -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col gap-1">
+          <label>Supplier Name</label>
+          <input type="text" [(ngModel)]="name" name="name" required class="border rounded p-2"/>
+          <div *ngIf="error()?.['name']" class="text-red-600 text-sm">{{ error()?.['name'] }}</div>
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label>Contact Person</label>
+          <input type="text" [(ngModel)]="contact" name="contact" required class="border rounded p-2"/>
+          <div *ngIf="error()?.['contact']" class="text-red-600 text-sm">{{ error()?.['contact'] }}</div>
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label>Email Address</label>
+          <input type="email" [(ngModel)]="email" name="email" required class="border rounded p-2"/>
+          <div *ngIf="error()?.['email']" class="text-red-600 text-sm">{{ error()?.['email'] }}</div>
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label>Phone Number</label>
+          <input type="text" [(ngModel)]="phone" name="phone" required class="border rounded p-2"/>
+          <div *ngIf="error()?.['phone']" class="text-red-600 text-sm">{{ error()?.['phone'] }}</div>
+        </div>
+      </div>
+
+      <!-- Rating, LeadTime, MaterialIds -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+        <div class="flex flex-col gap-1">
+          <label>Rating</label>
+          <input type="number" [(ngModel)]="rating" name="rating" min="0" max="5" step="0.1" class="border rounded p-2"/>
+          <div *ngIf="error()?.['rating']" class="text-red-600 text-sm">{{ error()?.['rating'] }}</div>
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label>Lead Time (days)</label>
+          <input type="number" [(ngModel)]="leadTime" name="leadTime" class="border rounded p-2"/>
+          <div *ngIf="error()?.['leadTime']" class="text-red-600 text-sm">{{ error()?.['leadTime'] }}</div>
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label>Material IDs (comma separated)</label>
+          <input type="text" [(ngModel)]="materialIdsString" name="materialIds" placeholder="1,2,3" class="border rounded p-2"/>
+          <div *ngIf="error()?.['materialIds']" class="text-red-600 text-sm">{{ error()?.['materialIds'] }}</div>
+        </div>
+      </div>
+
+      <!-- General errors (not associated with a specific input field) -->
+    <div *ngIf="error()">
+      <div *ngFor="let err of error() | keyvalue">
+        <!-- Only show errors here if they ARE NOT specific field names -->
+        <div *ngIf="!['name', 'contact', 'email', 'phone', 'rating', 'leadTime', 'materialIds'].includes($any(err.key))" 
+            class="p-2 mt-2 text-sm text-red-600 bg-red-50 rounded border border-red-200">
+          {{ err.value }}
+        </div>
+      </div>
     </div>
 
-    <!-- Contact Person -->
-    <div class="flex flex-col gap-1">
-      <label>Contact Person</label>
-      <input type="text" [(ngModel)]="contact" name="contact" required />
-    </div>
 
-    <!-- Email -->
-    <div class="flex flex-col gap-1">
-      <label>Email Address</label>
-      <input type="email" [(ngModel)]="email" name="email" required />
-    </div>
+      <!-- Buttons -->
+      <div class="flex justify-end gap-3 mt-4">
+        <button type="button" (click)="closeModal()" class="px-4 py-2 border rounded">Cancel</button>
+        <button type="submit" [disabled]="loading()" class="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
+          {{ loading() ? 'Saving...' : 'Save Supplier' }}
+        </button>
+      </div>
 
-    <!-- Phone -->
-    <div class="flex flex-col gap-1">
-      <label>Phone Number</label>
-      <input type="text" [(ngModel)]="phone" name="phone" required />
-    </div>
-  </div>
-
-  <div *ngIf="error()" class="text-red-600">{{ error() }}</div>
-
-  <div class="px-6 py-4 bg-slate-50 border-t flex justify-end gap-3">
-    <button type="button" (click)="closeModal()">Cancel</button>
-    <button type="submit" [disabled]="loading()">
-      {{ loading() ? 'Saving...' : 'Save Supplier' }}
-    </button>
-  </div>
-</form>
-
-    </div>
-
-    <!-- Footer Buttons -->
-    <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-3">
-      <button (click)="closeModal()" class="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-800 transition-colors">
-        Cancel
-      </button>
-      <button class="px-6 py-2 bg-indigo-600 text-white text-sm font-bold rounded-lg hover:bg-indigo-700 shadow-lg shadow-indigo-200 transition-all">
-        Save Supplier
-      </button>
-    </div>
+    </form>
   </div>
 </div>
