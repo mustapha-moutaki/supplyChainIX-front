@@ -38,6 +38,7 @@ export class SupplierComponent implements OnInit {
 
   //  open modal
   openCreateModal() {
+     this.selectedSupplier.set(null);  
     this.isCreateModalOpen.set(true);
   }
 
@@ -67,6 +68,27 @@ export class SupplierComponent implements OnInit {
       console.log("Failed to delete this supplier", err);
     }
   });
+}
+
+
+// edit supplier
+editSupplier(id:string, supplier:Supplier){
+  this.supplierService.editSupplier(id, supplier).subscribe({
+    next: ()=>{
+        this.loadSuppliers();
+        console.log("the data refreshed successfully ")
+    },
+    error:(err)=>{
+      console.log("Failed to update the data of this user ", err)
+    }
+  })
+}
+
+
+selectedSupplier = signal<Supplier | null>(null);
+openEditModal(supplier: Supplier) {
+  this.selectedSupplier.set(supplier);   // store selected supplier
+  this.isCreateModalOpen.set(true);      // open modal
 }
 
 }

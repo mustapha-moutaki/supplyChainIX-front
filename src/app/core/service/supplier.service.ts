@@ -18,4 +18,9 @@ export class SupplierService {
     deleteSupplier(id: string): Observable<void>{
         return this.supplierApi.delete(id);
     }
+
+    // edit supplier service method
+    editSupplier(id: string, supplier: Supplier): Observable<Supplier>{
+        return this.supplierApi.edit(id, supplier);
+    }
 }

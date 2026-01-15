@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output, inject, signal } from '@angular/core';
-import { CommonModule , KeyValuePipe} from '@angular/common';
+import { Component, EventEmitter, Input, Output, inject, signal, OnChanges } from '@angular/core';
+import { CommonModule, KeyValuePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Supplier } from '../../../../core/models/supplier.model';
 import { SupplierService } from '../../../../core/service/supplier.service';
@@ -10,16 +10,23 @@ import { SupplierService } from '../../../../core/service/supplier.service';
   imports: [CommonModule, FormsModule, KeyValuePipe],
   templateUrl: './create-supplier.components.html'
 })
-export class CreateSupplierComponent {
+export class CreateSupplierComponent implements OnChanges {
 
   private supplierService = inject(SupplierService);
 
   @Input() isOpen: boolean = false;
+
+  // ✅ ADDED: used when opening modal in edit mode
+  @Input() supplierToEdit: Supplier | null = null;
+
   @Output() close = new EventEmitter<void>();
   @Output() created = new EventEmitter<Supplier>();
 
+  // ✅ ADDED: emitted when editing an existing supplier
+  @Output() updated = new EventEmitter<Supplier>();
+
   // Form fields
-  id= ''
+  id = ''; // ✅ ADDED: keep supplier id when editing
   name = '';
   contact = '';
   email = '';
@@ -31,6 +38,24 @@ export class CreateSupplierComponent {
   // Signals
   loading = signal(false);
   error = signal<{ [key: string]: string } | null>(null);
+
+  // ✅ ADDED: detect when supplierToEdit changes
+  ngOnChanges(): void {
+    if (this.supplierToEdit) {
+      // ✅ Fill the form when editing
+      this.id = this.supplierToEdit.id ?? '';
+      this.name = this.supplierToEdit.name;
+      this.contact = this.supplierToEdit.contact;
+      this.email = this.supplierToEdit.email;
+      this.phone = this.supplierToEdit.phone;
+      this.rating = this.supplierToEdit.rating;
+      this.leadTime = this.supplierToEdit.leadTime;
+      this.materialIdsString = this.supplierToEdit.materialIds.join(',');
+    } else {
+      // ✅ Reset form when creating a new supplier
+      this.resetForm();
+    }
+  }
 
   // Close modal & reset errors
   closeModal() {
@@ -46,13 +71,13 @@ export class CreateSupplierComponent {
       .filter(id => !isNaN(id));
   }
 
-  // Save supplier
+  // Save supplier (Create OR Edit)
   saveSupplier() {
     this.loading.set(true);
     this.error.set(null);
 
     const supplier: Supplier = {
-      id : '',
+      id: this.id, // ✅ Use id only when editing
       name: this.name,
       contact: this.contact,
       email: this.email,
@@ -62,6 +87,15 @@ export class CreateSupplierComponent {
       materialIds: this.materialIds
     };
 
+    // ✅ ADDED: if supplierToEdit exists → EDIT mode
+    if (this.supplierToEdit) {
+      this.updated.emit(supplier);
+      this.loading.set(false);
+      this.closeModal();
+      return;
+    }
+
+    // 🔵 CREATE mode (original logic untouched)
     this.supplierService.creatSupplier(supplier).subscribe({
       next: (res) => {
         this.created.emit(res);
@@ -70,19 +104,28 @@ export class CreateSupplierComponent {
       },
       error: (err: any) => {
         this.loading.set(false);
-        
-        // Log it to see exactly what comes back in the console
+
         console.log('Backend Error:', err);
 
         if (err.status === 400 && err.error?.validationErrors) {
-          // This is the map: { phone: "...", email: "..." }
           this.error.set(err.error.validationErrors);
         } else {
-          // Fallback for 500 errors or connection issues
           this.error.set({ general: err.error?.message || 'A server error occurred' });
         }
       }
     });
+  }
+
+  // ✅ ADDED: helper to reset form fields
+  resetForm() {
+    this.id = '';
+    this.name = '';
+    this.contact = '';
+    this.email = '';
+    this.phone = '';
+    this.rating = 0;
+    this.leadTime = 0;
+    this.materialIdsString = '';
   }
 
   // Helper to get keys of error object (used in template)
