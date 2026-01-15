@@ -1,55 +1,82 @@
-import { Component, inject, signal, effect, WritableSignal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
 import { RawMaterialService } from '../../core/service/raw-material.service';
 import { RawMaterial } from '../../core/models/raw-material.model';
+import { CreateRawMaterial } from '../../core/models/create-raw-material.model';
 
 @Component({
   selector: 'app-raw-material',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './raw-material.component.html',
 })
 export class RawMaterialComponent {
 
-  //  Dependencies
+  // =====================
+  // Dependencies
+  // =====================
   private readonly rawMaterialService = inject(RawMaterialService);
 
-  //  State (Signals)
+  // =====================
+  // State (Signals)
+  // =====================
   readonly rawMaterials = signal<RawMaterial[]>([]);
-  readonly loading = signal<boolean>(false);
+  readonly loading = signal(false);
   readonly error = signal<string | null>(null);
+  readonly success = signal(false);
 
-  //  Pagination state (ready for later UI)
+  // Pagination
   readonly pageNumber = signal(0);
   readonly pageSize = signal(10);
   readonly totalElements = signal(0);
   readonly totalPages = signal(0);
 
+  // =====================
+  // Create form state
+  // =====================
+  readonly showCreateForm = signal(false);
+
+  // Form fields
+  name = '';
+  description = '';
+  stock = 0;
+  stockMin = 0;
+  unitPrice = 0;
+  unit: 'piece' | 'kg' | 'liter' = 'piece';
+  supplierIds: number[] = [];
+
   constructor() {
     this.loadRawMaterials();
   }
 
-  //  New Method (Best Practice)
+  // =====================
+  // Load materials
+  // =====================
   loadRawMaterials(): void {
     this.loading.set(true);
     this.error.set(null);
 
-    this.rawMaterialService.getAll(this.pageNumber(), this.pageSize()).subscribe({
-      next: (res) => {
-        this.rawMaterials.set(res.content);
-        this.totalElements.set(res.totalElements);
-        this.totalPages.set(res.totalPages);
-        this.loading.set(false);
-      },
-      error: (err) => {
-        console.error('Failed to load raw materials', err);
-        this.error.set('Failed to load raw materials');
-        this.loading.set(false);
-      }
-    });
+    this.rawMaterialService
+      .getAll(this.pageNumber(), this.pageSize())
+      .subscribe({
+        next: (res) => {
+          this.rawMaterials.set(res.content);
+          this.totalElements.set(res.totalElements);
+          this.totalPages.set(res.totalPages);
+          this.loading.set(false);
+        },
+        error: () => {
+          this.error.set('Failed to load raw materials');
+          this.loading.set(false);
+        },
+      });
   }
 
-  //  Pagination helpers (future ready)
+  // =====================
+  // Pagination
+  // =====================
   nextPage(): void {
     if (this.pageNumber() + 1 < this.totalPages()) {
       this.pageNumber.update(p => p + 1);
@@ -64,31 +91,81 @@ export class RawMaterialComponent {
     }
   }
 
-
-  // delete raw-material
-  delete(id: string | undefined): void {
-  if (!id) return;
-
-  this.loading.set(true); 
-
-  this.rawMaterialService.delete(id).subscribe({
-    next: () => {
-      this.rawMaterials.update(list => list.filter(s => s.id !== id));
-      this.loading.set(false);
-    },
-    error: (err: any) => {
-      this.loading.set(false);
-
-      if (err.status === 400 && err.error?.validationErrors) {
-        this.error.set(err.error.message);
-      }
-      // any other error like 500
-      else if (err.error?.message) {
-        this.error.set(err.error.message);
-      }
-      console.log('Delete error:', err);
-    }
-  });
+  // =====================
+  // Toggle create form
+  // =====================
+ toggleCreateForm(): void {
+  console.log("Before toggle:", this.showCreateForm());
+  this.showCreateForm.update(v => !v);
+  console.log("After toggle:", this.showCreateForm());
+  this.error.set(null);
+  this.success.set(false);
 }
 
+  // =====================
+  // Create Raw Material
+  // =====================
+  createRawMaterial(): void {
+    this.loading.set(true);
+    this.error.set(null);
+    this.success.set(false);
+
+    const payload: CreateRawMaterial = {
+      name: this.name,
+      description: this.description,
+      stock: this.stock,
+      stockMin: this.stockMin,
+      unitPrice: this.unitPrice,
+      unit: this.unit,
+      supplierIds: this.supplierIds,
+    };
+
+    this.rawMaterialService.creatRawMaterial(payload).subscribe({
+      next: (created) => {
+        // add directly to list (UX )
+        this.rawMaterials.update(list => [created, ...list]);
+
+        this.loading.set(false);
+        this.success.set(true);
+        this.resetForm();
+        this.showCreateForm.set(false);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.error.set(err?.error?.message ?? 'Failed to create raw material');
+      },
+    });
+  }
+
+  private resetForm(): void {
+    this.name = '';
+    this.description = '';
+    this.stock = 0;
+    this.stockMin = 0;
+    this.unitPrice = 0;
+    this.unit = 'piece';
+    this.supplierIds = [];
+  }
+
+  // =====================
+  // Delete
+  // =====================
+  delete(id: string | undefined): void {
+    if (!id) return;
+
+    this.loading.set(true);
+
+    this.rawMaterialService.delete(id).subscribe({
+      next: () => {
+        this.rawMaterials.update(list =>
+          list.filter(m => m.id !== id)
+        );
+        this.loading.set(false);
+      },
+      error: (err) => {
+        this.loading.set(false);
+        this.error.set(err?.error?.message ?? 'Delete failed');
+      },
+    });
+  }
 }

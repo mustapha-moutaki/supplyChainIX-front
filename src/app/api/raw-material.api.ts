@@ -2,8 +2,10 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable, inject } from "@angular/core";
 import { environment } from "../../environments/environment.development";
 import { Observable } from "rxjs";
-import { RawMaterial } from "../core/models/raw-material.model";
+import { CreateRawMaterial } from "../core/models/create-raw-material.model";
 import { PageResponse } from "../core/models/pageResponse.model"
+
+import { RawMaterial } from "../core/models/raw-material.model";
 @Injectable({ providedIn: 'root'})
 
 export class RawMaterialAPi{
@@ -28,6 +30,11 @@ export class RawMaterialAPi{
   // delete raw material
   delete(id: string): Observable<void>{
     return this.http.delete<void>(`${this.url}/${id}`);
+  }
+
+  // create a rawMaterial
+  create(rawMaterial: CreateRawMaterial): Observable<RawMaterial>{
+    return this.http.post<RawMaterial>(this.url, rawMaterial);
   }
 
 
