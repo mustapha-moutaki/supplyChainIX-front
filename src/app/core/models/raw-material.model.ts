@@ -1,5 +1,5 @@
 export interface RawMaterial{
-  id: number;
+  id: string;
   name: string;
   stock: number;
   availableStock: number;

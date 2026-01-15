@@ -16,17 +16,17 @@ export class CreateSupplierComponent implements OnChanges {
 
   @Input() isOpen: boolean = false;
 
-  // ✅ ADDED: used when opening modal in edit mode
+  //  ADDED: used when opening modal in edit mode
   @Input() supplierToEdit: Supplier | null = null;
 
   @Output() close = new EventEmitter<void>();
   @Output() created = new EventEmitter<Supplier>();
 
-  // ✅ ADDED: emitted when editing an existing supplier
+  //  ADDED: emitted when editing an existing supplier
   @Output() updated = new EventEmitter<Supplier>();
 
   // Form fields
-  id = ''; // ✅ ADDED: keep supplier id when editing
+  id = ''; //  ADDED: keep supplier id when editing
   name = '';
   contact = '';
   email = '';
@@ -39,10 +39,10 @@ export class CreateSupplierComponent implements OnChanges {
   loading = signal(false);
   error = signal<{ [key: string]: string } | null>(null);
 
-  // ✅ ADDED: detect when supplierToEdit changes
+  //  ADDED: detect when supplierToEdit changes
   ngOnChanges(): void {
     if (this.supplierToEdit) {
-      // ✅ Fill the form when editing
+      //  Fill the form when editing
       this.id = this.supplierToEdit.id ?? '';
       this.name = this.supplierToEdit.name;
       this.contact = this.supplierToEdit.contact;
@@ -52,7 +52,7 @@ export class CreateSupplierComponent implements OnChanges {
       this.leadTime = this.supplierToEdit.leadTime;
       this.materialIdsString = this.supplierToEdit.materialIds.join(',');
     } else {
-      // ✅ Reset form when creating a new supplier
+      // Reset form when creating a new supplier
       this.resetForm();
     }
   }
@@ -77,7 +77,7 @@ export class CreateSupplierComponent implements OnChanges {
     this.error.set(null);
 
     const supplier: Supplier = {
-      id: this.id, // ✅ Use id only when editing
+      id: this.id, //  Use id only when editing
       name: this.name,
       contact: this.contact,
       email: this.email,
@@ -87,7 +87,7 @@ export class CreateSupplierComponent implements OnChanges {
       materialIds: this.materialIds
     };
 
-    // ✅ ADDED: if supplierToEdit exists → EDIT mode
+    // ADDED: if supplierToEdit exists → EDIT mode
     if (this.supplierToEdit) {
       this.updated.emit(supplier);
       this.loading.set(false);
@@ -116,7 +116,7 @@ export class CreateSupplierComponent implements OnChanges {
     });
   }
 
-  // ✅ ADDED: helper to reset form fields
+  //  ADDED: helper to reset form fields
   resetForm() {
     this.id = '';
     this.name = '';

@@ -12,4 +12,13 @@ export class RawMaterialService{
    getAll(page: number, size: number): Observable<PageResponse<RawMaterial>> {
     return this.rawMaterialApi.getAll(page, size);
   }
+
+
+
+  // delete raw-material
+  delete(id: string):Observable<void>{
+    return this.rawMaterialApi.delete(id);
+  }
+
+  
 }

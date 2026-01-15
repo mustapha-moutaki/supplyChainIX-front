@@ -31,6 +31,7 @@
 
 <!-- Table -->
 <div *ngIf="!loading() && rawMaterials().length > 0" class="overflow-x-auto bg-white">
+    
   <table class="w-full border-collapse">
     <thead>
       <tr class="bg-gray-50 text-xs uppercase text-gray-600 border-b">
@@ -64,7 +65,7 @@
         <td class="px-6 py-4 text-center">
           <div class="flex justify-center gap-2">
             <button class="p-2 text-blue-600 hover:bg-blue-50 rounded-full">✏️</button>
-            <button class="p-2 text-red-600 hover:bg-red-50 rounded-full">🗑</button>
+            <button class="p-2 text-red-600 hover:bg-red-50 rounded-full" (click)="delete(material.id!)">🗑</button>
           </div>
         </td>
       </tr>

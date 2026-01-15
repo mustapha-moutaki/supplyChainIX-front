@@ -1,4 +1,4 @@
-import { Component, inject, signal, effect } from '@angular/core';
+import { Component, inject, signal, effect, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RawMaterialService } from '../../core/service/raw-material.service';
 import { RawMaterial } from '../../core/models/raw-material.model';
@@ -63,4 +63,32 @@ export class RawMaterialComponent {
       this.loadRawMaterials();
     }
   }
+
+
+  // delete raw-material
+  delete(id: string | undefined): void {
+  if (!id) return;
+
+  this.loading.set(true); 
+
+  this.rawMaterialService.delete(id).subscribe({
+    next: () => {
+      this.rawMaterials.update(list => list.filter(s => s.id !== id));
+      this.loading.set(false);
+    },
+    error: (err: any) => {
+      this.loading.set(false);
+
+      if (err.status === 400 && err.error?.validationErrors) {
+        this.error.set(err.error.message);
+      }
+      // any other error like 500
+      else if (err.error?.message) {
+        this.error.set(err.error.message);
+      }
+      console.log('Delete error:', err);
+    }
+  });
+}
+
 }
