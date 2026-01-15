@@ -3,7 +3,10 @@
 
     <!-- Header -->
     <div class="px-6 py-4 border-b flex justify-between items-center bg-slate-50/50">
-      <h3 class="text-xl font-bold text-slate-800">Register New Supplier</h3>
+      <!--  CHANGED: dynamic title for Create / Edit -->
+      <h3 class="text-xl font-bold text-slate-800">
+        {{ supplierToEdit ? 'Edit Supplier' : 'Register New Supplier' }}
+      </h3>
       <button (click)="closeModal()" class="p-2 hover:bg-slate-200 rounded-full text-slate-500">✕</button>
     </div>
 
@@ -58,23 +61,25 @@
         </div>
       </div>
 
-      <!-- General errors (not associated with a specific input field) -->
-    <div *ngIf="error()">
-      <div *ngFor="let err of error() | keyvalue">
-        <!-- Only show errors here if they ARE NOT specific field names -->
-        <div *ngIf="!['name', 'contact', 'email', 'phone', 'rating', 'leadTime', 'materialIds'].includes($any(err.key))" 
-            class="p-2 mt-2 text-sm text-red-600 bg-red-50 rounded border border-red-200">
-          {{ err.value }}
+      <!-- General errors -->
+      <div *ngIf="error()">
+        <div *ngFor="let err of error() | keyvalue">
+          <div *ngIf="!['name','contact','email','phone','rating','leadTime','materialIds'].includes($any(err.key))"
+               class="p-2 mt-2 text-sm text-red-600 bg-red-50 rounded border border-red-200">
+            {{ err.value }}
+          </div>
         </div>
       </div>
-    </div>
-
 
       <!-- Buttons -->
       <div class="flex justify-end gap-3 mt-4">
-        <button type="button" (click)="closeModal()" class="px-4 py-2 border rounded">Cancel</button>
+        <button type="button" (click)="closeModal()" class="px-4 py-2 border rounded">
+          Cancel
+        </button>
+
+        <!-- ✅ CHANGED: dynamic button text -->
         <button type="submit" [disabled]="loading()" class="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
-          {{ loading() ? 'Saving...' : 'Save Supplier' }}
+          {{ loading() ? 'Saving...' : (supplierToEdit ? 'Update Supplier' : 'Save Supplier') }}
         </button>
       </div>
 

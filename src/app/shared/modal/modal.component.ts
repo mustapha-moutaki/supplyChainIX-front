@@ -15,6 +15,9 @@ export class ModalComponent {
   @Input() open = false; // the parent controller
   @Output() close = new EventEmitter<void>(); 
 
+
+  // for edit
+  
   onClose(){
     this.close.emit();
   }
