@@ -61,7 +61,7 @@ export class ProductComponent implements OnInit {
 
   // Delete a product
   deleteProduct(id: number): void {
-    if (!confirm('Are you sure you want to delete this product?')) return;
+   
     this.productService.deleteProduct(id).subscribe({
       next: () => this.loadProducts(),
       error: () => (this.error = 'Failed to delete product')

@@ -56,8 +56,6 @@ export class SupplierComponent implements OnInit {
   deleteSupplier(id: string | undefined) {
       if (!id) return;
 
-  if (!confirm("Are you sure you want to delete this supplier?")) return;
-
   this.supplierService.deleteSupplier(id).subscribe({
     next: () => {
   
