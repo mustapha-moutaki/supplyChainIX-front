@@ -10,7 +10,6 @@ import { LoginRequest } from '../../core/models/auth.model';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './auth.component.html',
-//   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent {
   email = '';
