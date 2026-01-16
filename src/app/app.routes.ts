@@ -1,37 +1,4 @@
-// import { Routes } from '@angular/router';
-// import { AuthLayoutComponent } from './core/layout/auth-layout/auth-layout.component';
-// import { authRoutes } from './features/auth/auth.routes';
-// import { authGuard } from './core/guards/role.guard';
-// import { SupplierComponent } from './features/supplier/supplier.component';
-// export const routes: Routes = [
 
-
-//   {
-//     path: 'dashboard',
-//     loadChildren: () =>
-//       import('./features/dashboard/dashboard.routes').then(m => m.DASHBOARD_ROUTES),
-//     canActivate: [authGuard] // protecting the dashaboard url 
-//   },
-//   {
-//     path: '',
-//     component: AuthLayoutComponent,
-//     children: [...authRoutes]
-//   },
-
-//   {
-//     path: '',
-//     component: SupplierComponent
-//   },
-//   {
-//     path: '',
-//     redirectTo: 'dashboard',
-//     pathMatch: 'full'
-//   },
-//   {
-//     path: '**',
-//     redirectTo: 'dashboard'
-//   }
-// ];
 import { Routes } from '@angular/router';
 import { AuthLayoutComponent } from './core/layout/auth-layout/auth-layout.component';
 import { authRoutes } from './features/auth/auth.routes';
@@ -69,12 +36,6 @@ export const routes: Routes = [
     path: 'supplier',
     component: SupplierComponent
   },
-
-  // we have nested routing now instead of /raw-material => /dashboard/raw-material
-  // {
-  //   path: 'raw-material',
-  //   component: RawMaterialComponent
-  // },
 
   //  Not found
   {
