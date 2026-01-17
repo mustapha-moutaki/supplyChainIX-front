@@ -428,8 +428,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 Full-Stack Developer | Angular & Spring Boot Specialist
 
 [![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/mustapha-moutaki)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](#)
-[![Portfolio](https://img.shields.io/badge/Portfolio-FF5722?style=for-the-badge&logo=todoist&logoColor=white)](#)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/mustapha-moutaki-6528a2242/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-FF5722?style=for-the-badge&logo=todoist&logoColor=white)](https://mustapha-portfolio-d10muxzta-mustapha-moutakis-projects.vercel.app/)
 
 *Passionate about building scalable enterprise applications with clean architecture and modern technologies.*
 
