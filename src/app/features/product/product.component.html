@@ -15,7 +15,7 @@
   </button>
 </div>
 
-<!-- Table -->
+<!-- Table Container -->
 <div class="overflow-x-auto">
   <table class="w-full text-left border-collapse">
     <thead>
@@ -55,8 +55,16 @@
         </td>
         <td class="px-6 py-4 text-center">
           <div class="flex justify-center gap-3">
-            <button (click)="editProduct(product)" class="p-2 text-blue-600 hover:bg-blue-50 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg></button>
-            <button (click)="deleteProduct(product.id)" class="p-2 text-red-600 hover:bg-red-50 rounded-full"><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg></button>
+            <button (click)="editProduct(product)" class="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition-colors" title="Edit">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+              </svg>
+            </button>
+            <button (click)="deleteProduct(product.id)" class="p-2 text-red-600 hover:bg-red-50 rounded-full transition-colors" title="Delete">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+              </svg>
+            </button>
           </div>
         </td>
       </tr>
@@ -64,7 +72,7 @@
   </table>
 </div>
 
-<!-- Modal -->
+<!-- Modal Component -->
 <app-modal [open]="showModal" (close)="closeModal()">
   <h3 class="text-xl font-bold mb-4 text-gray-800">
     {{ productForm.id === 0 ? 'Add New Product' : 'Edit Product' }}
@@ -87,14 +95,14 @@
         <input type="number" [(ngModel)]="productForm.cost" class="w-full px-3 py-2 border rounded"/>
       </div>
       <div>
-        <label class="block text-sm font-medium text-gray-700">Unit (e.g. Kg, Box)</label>
+        <label class="block text-sm font-medium text-gray-700">Unit</label>
         <input type="text" [(ngModel)]="productForm.unit" class="w-full px-3 py-2 border rounded"/>
       </div>
     </div>
 
     <div class="grid grid-cols-2 gap-4">
       <div>
-        <label class="block text-sm font-medium text-gray-700">Current Stock</label>
+        <label class="block text-sm font-medium text-gray-700">Stock</label>
         <input type="number" [(ngModel)]="productForm.stock" class="w-full px-3 py-2 border rounded"/>
       </div>
       <div>
@@ -111,11 +119,13 @@
     <!-- Bill of Materials Section -->
     <div class="border-t pt-4 mt-4">
       <label class="block text-sm font-bold text-gray-800 mb-2">Bill of Materials</label>
+      
       <div *ngFor="let bom of productForm.billOfMaterials; let i = index" class="flex gap-2 items-center mb-2 bg-gray-50 p-2 rounded">
         <div class="flex-1">
+          <!-- Real Materials Select -->
           <select [(ngModel)]="bom.materialId" class="w-full px-2 py-1 border rounded text-sm">
-            <option [value]="0" disabled>Select Material</option>
-            <option *ngFor="let m of materials" [value]="m.id">{{ m.name }}</option>
+            <option [value]="0" disabled>Select Raw Material</option>
+            <option *ngFor="let m of materials" [value]="m.id">{{ m.name }} ({{m.unit}})</option>
           </select>
         </div>
         <div class="w-24">
@@ -127,16 +137,16 @@
           </svg>
         </button>
       </div>
+
       <button (click)="productForm.billOfMaterials.push({idBOM:0, materialId:0, materialName:'', materialUnit:'', quantity:1})" 
               type="button" class="mt-2 text-sm text-indigo-600 font-semibold hover:text-indigo-800 flex items-center gap-1">
-        + Add Material
+        + Add Raw Material
       </button>
     </div>
 
-    <!-- Footer -->
     <div class="flex justify-end mt-6 gap-2 border-t pt-4">
-      <button (click)="closeModal()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors">Cancel</button>
-      <button (click)="submitProduct()" class="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition-colors shadow-sm">
+      <button (click)="closeModal()" class="px-4 py-2 bg-gray-100 text-gray-700 rounded">Cancel</button>
+      <button (click)="submitProduct()" class="px-4 py-2 bg-indigo-600 text-white rounded shadow-sm">
         {{ productForm.id === 0 ? 'Create Product' : 'Update Product' }}
       </button>
     </div>

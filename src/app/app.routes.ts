@@ -6,7 +6,7 @@ import { authGuard } from './core/guards/role.guard';
 import { SupplierComponent } from './features/supplier/supplier.component';
 import { WelcomeComponent } from './features/welcome/welcome.component';
 import { RawMaterialComponent } from './features/raw-material/raw-material.component';
-
+import { BillOfMaterialComponent } from './features/bill-of-material/bill-of-material.component';
 export const routes: Routes = [
 
   //  Home page
@@ -35,6 +35,11 @@ export const routes: Routes = [
   {
     path: 'supplier',
     component: SupplierComponent
+  },
+
+  {
+    path: 'bill-of-materials',
+    component: BillOfMaterialComponent
   },
 
   //  Not found

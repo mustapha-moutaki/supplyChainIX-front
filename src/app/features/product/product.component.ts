@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../core/service/product.service';
 import { Product } from '../../core/models/product.model';
 import { ModalComponent } from '../../shared/modal/modal.component';
-
+import { RawMaterial } from '../../core/models/raw-material.model';
+import { RawMaterialService } from '../../core/service/raw-material.service';
 @Component({
   selector: 'app-product',
   standalone: true,
@@ -32,16 +33,27 @@ export class ProductComponent implements OnInit {
     ]
   };
 
-  // Example materials for the select dropdown
-  materials = [
-    { id: 1, name: 'Wood' },
-    { id: 2, name: 'Metal' },
-  ];
+  // materials for the select dropdown
+   materials: RawMaterial[] = [];
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService,  private rawMaterialService: RawMaterialService ) {}
 
   ngOnInit(): void {
     this.loadProducts();
+     this.loadMaterials(); 
+  }
+
+   // Load materials from DB
+  private loadMaterials(): void {
+    // Fetching page 0 with a large size to get materials for the dropdown
+    this.rawMaterialService.getAll(0, 100).subscribe({
+      next: (response) => {
+        this.materials = response.content; 
+      },
+      error: () => {
+        this.error = 'Failed to load materials list';
+      }
+    });
   }
 
   // Load all products
