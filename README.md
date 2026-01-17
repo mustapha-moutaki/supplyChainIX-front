@@ -452,6 +452,6 @@ Full-Stack Developer | Angular & Spring Boot Specialist
 
 **[Report Bug](https://github.com/mustapha-moutaki/mustapha-moutaki-supplychainix-front/issues)** • **[Request Feature](https://github.com/mustapha-moutaki/mustapha-moutaki-supplychainix-front/issues)**
 
-Made with code by Mustapha Moutaki
+Made with code and code by Mustapha Moutaki
 
 </div>
