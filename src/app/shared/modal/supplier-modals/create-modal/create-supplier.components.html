@@ -77,7 +77,7 @@
           Cancel
         </button>
 
-        <!-- ✅ CHANGED: dynamic button text -->
+        <!--  CHANGED: dynamic button text -->
         <button type="submit" [disabled]="loading()" class="px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700">
           {{ loading() ? 'Saving...' : (supplierToEdit ? 'Update Supplier' : 'Save Supplier') }}
         </button>

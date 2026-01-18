@@ -34,3 +34,4 @@ export const DASHBOARD_ROUTES: Routes = [
     ]
   }
 ];
+// NB: this is nested routing in angular 

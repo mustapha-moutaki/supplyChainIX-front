@@ -17,7 +17,6 @@ import { HeaderComponent } from '../../shared/components/header/header.component
   ]
 })
 export class DashboardComponent implements OnInit {
-  // role: string = 'ADMIN';
   role: string | null = null;
   private authService = inject(AuthService);
 

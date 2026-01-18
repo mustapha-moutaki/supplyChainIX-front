@@ -14,14 +14,14 @@ import { CreateRawMaterial } from '../../core/models/create-raw-material.model';
 })
 export class RawMaterialComponent {
 
-  // =====================
+ 
   // Dependencies
-  // =====================
+ 
   private readonly rawMaterialService = inject(RawMaterialService);
 
-  // =====================
+ 
   // State (Signals)
-  // =====================
+ 
   readonly rawMaterials = signal<RawMaterial[]>([]);
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
@@ -33,9 +33,9 @@ export class RawMaterialComponent {
   readonly totalElements = signal(0);
   readonly totalPages = signal(0);
 
-  // =====================
+ 
   // Create form state
-  // =====================
+ 
   readonly showCreateForm = signal(false);
 
   // Form fields
@@ -51,9 +51,9 @@ export class RawMaterialComponent {
     this.loadRawMaterials();
   }
 
-  // =====================
+ 
   // Load materials
-  // =====================
+ 
   loadRawMaterials(): void {
     this.loading.set(true);
     this.error.set(null);
@@ -74,9 +74,9 @@ export class RawMaterialComponent {
       });
   }
 
-  // =====================
+ 
   // Pagination
-  // =====================
+ 
   nextPage(): void {
     if (this.pageNumber() + 1 < this.totalPages()) {
       this.pageNumber.update(p => p + 1);
@@ -91,9 +91,9 @@ export class RawMaterialComponent {
     }
   }
 
-  // =====================
+ 
   // Toggle create form
-  // =====================
+ 
  toggleCreateForm(): void {
   console.log("Before toggle:", this.showCreateForm());
   this.showCreateForm.update(v => !v);
@@ -102,9 +102,9 @@ export class RawMaterialComponent {
   this.success.set(false);
 }
 
-  // =====================
+ 
   // Create Raw Material
-  // =====================
+ 
   createRawMaterial(): void {
     this.loading.set(true);
     this.error.set(null);
@@ -147,9 +147,7 @@ export class RawMaterialComponent {
     this.supplierIds = [];
   }
 
-  // =====================
   // Delete
-  // =====================
   delete(id: string | undefined): void {
     if (!id) return;
 
