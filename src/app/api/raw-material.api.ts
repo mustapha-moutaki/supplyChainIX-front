@@ -14,9 +14,6 @@ export class RawMaterialAPi{
     private readonly url = `${environment.apiBaseUrl}/raw-materials`;
 
 
-    // getAll():Observable<RawMaterial []>{
-    //     return this.http.get<RawMaterial []>(this.url);
-    // }
 
       getAll(page: number, size: number): Observable<PageResponse<RawMaterial>> {
     return this.http.get<PageResponse<RawMaterial>>(this.url, {

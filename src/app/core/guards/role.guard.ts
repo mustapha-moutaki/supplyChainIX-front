@@ -2,7 +2,6 @@ import { CanActivateFn } from '@angular/router';
 import { AuthService } from '../service/auth.service';
 import { inject } from '@angular/core';
 import { Router } from '@angular/router';
-// NEW CHANGE: Import RxJS operators for async token refresh
 import { map, catchError, of } from 'rxjs';
 
 export const roleGuard: CanActivateFn = (route, state) => {
