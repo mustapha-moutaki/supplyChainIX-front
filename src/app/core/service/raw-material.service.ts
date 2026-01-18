@@ -16,8 +16,6 @@ export class RawMaterialService{
     return this.rawMaterialApi.getAll(page, size);
   }
 
-
-
   // delete raw-material
   delete(id: string):Observable<void>{
     return this.rawMaterialApi.delete(id);

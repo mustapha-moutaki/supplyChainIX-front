@@ -10,3 +10,4 @@ export class BillOfMaterialComponent {
 
   
 }
+// for testing we don't have it's logic in backend
