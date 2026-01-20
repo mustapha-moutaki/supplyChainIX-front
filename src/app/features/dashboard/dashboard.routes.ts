@@ -5,6 +5,7 @@ import { ProductComponent } from '../product/product.component';
 import { SupplierComponent } from '../supplier/supplier.component';
 import { RawMaterialComponent } from '../raw-material/raw-material.component';
 import { BillOfMaterialComponent } from '../bill-of-material/bill-of-material.component'
+import { CustomerComponent } from '../customer/customer.component';
 export const DASHBOARD_ROUTES: Routes = [
   {
     path: '',
@@ -26,10 +27,15 @@ export const DASHBOARD_ROUTES: Routes = [
         path: 'raw-material',
         component: RawMaterialComponent
       },
-       {
+      {
           path: 'bill-of-materials',
           component: BillOfMaterialComponent
-        }
+      },
+      {
+        path: 'customers',
+        component: CustomerComponent
+      }
+
 
     ]
   }
