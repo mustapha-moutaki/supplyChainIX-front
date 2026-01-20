@@ -8,7 +8,6 @@ import { EventEmitter } from '@angular/core';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './modal.component.html',
-  // styleUrl: './modal.component.css' we use taiwlind
 })
 export class ModalComponent {
 
