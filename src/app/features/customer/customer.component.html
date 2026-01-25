@@ -1,1 +1,83 @@
-<p>customer works!</p>
+<!-- Header -->
+<div class="flex flex-col md:flex-row justify-between items-center p-6 border-b border-gray-200 bg-white">
+  <div>
+    <h2 class="text-2xl font-bold text-gray-800">Customer Management</h2>
+    <p class="text-sm text-gray-500 mt-1">View and manage all customers</p>
+  </div>
+
+  <button
+    class="mt-4 md:mt-0 px-5 py-2.5 bg-indigo-600 text-white font-medium rounded-lg hover:bg-indigo-700 transition flex items-center gap-2">
+    ➕ Add New Customer
+  </button>
+</div>
+
+<!-- Loading -->
+<div *ngIf="loading" class="p-6 text-gray-500">Loading customers...</div>
+
+<!-- Error -->
+<div *ngIf="error" class="p-6 text-red-600">{{ error }}</div>
+
+<!-- Table -->
+<div class="overflow-x-auto" *ngIf="!loading && customers.length">
+
+  <table class="w-full border-collapse text-left">
+    <thead>
+      <tr class="bg-gray-100 text-gray-700 uppercase text-xs font-semibold">
+        <th class="px-6 py-4 border-b">Name</th>
+        <th class="px-6 py-4 border-b">Email</th>
+        <th class="px-6 py-4 border-b">Phone</th>
+        <th class="px-6 py-4 border-b">Address</th>
+        <th class="px-6 py-4 border-b text-center">Actions</th>
+      </tr>
+    </thead>
+
+    <tbody class="divide-y">
+      <tr *ngFor="let customer of customers" class="hover:bg-gray-50 transition">
+
+        <td class="px-6 py-4 font-semibold text-gray-900">
+          {{ customer.name }}
+        </td>
+
+        <td class="px-6 py-4 text-gray-600">
+          {{ customer.email }}
+        </td>
+
+        <td class="px-6 py-4 text-gray-600">
+          {{ customer.phone }}
+        </td>
+
+        <td class="px-6 py-4 text-gray-600 truncate max-w-[200px]">
+          {{ customer.address }}
+        </td>
+
+        <td class="px-6 py-4 text-center">
+          <div class="flex justify-center gap-3">
+
+            <!-- Edit -->
+            <button
+              (click)="editCustomer(customer)"
+              class="p-2 text-blue-600 hover:bg-blue-50 rounded-full transition"
+              title="Edit">
+              ✏️
+            </button>
+
+            <!-- Delete -->
+            <button
+              (click)="deleteCustomer(customer.id)"
+              class="p-2 text-red-600 hover:bg-red-50 rounded-full transition"
+              title="Delete">
+              🗑️
+            </button>
+
+          </div>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Empty -->
+<div *ngIf="!loading && !customers.length" class="p-6 text-gray-500">
+  No customers found.
+</div>

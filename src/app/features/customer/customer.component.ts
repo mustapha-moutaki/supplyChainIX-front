@@ -1,28 +1,57 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CustomerService } from '../../core/service/customer.service';
 import { Customer } from '../../core/models/customer.model';
+import { CommonModule } from '@angular/common';
+
 @Component({
   selector: 'app-customer',
-  imports: [],
   templateUrl: './customer.component.html',
-  styleUrl: './customer.component.css'
+  styleUrl: './customer.component.css',
+  imports: [CommonModule]
 })
-export class CustomerComponent {
+export class CustomerComponent implements OnInit {
 
   private readonly customerService = inject(CustomerService);
 
-  customers: Customer [] = [];
+  customers: Customer[] = [];
   loading = false;
   error = '';
 
-  private loadCustomers(): void{
+  ngOnInit(): void {
+    this.loadCustomers();
+  }
+
+  loadCustomers(): void {
+    this.loading = true;
+
     this.customerService.getAll().subscribe({
-      next: (response) => {
-        this.customers = response.content; 
+      next: (res) => {
+           console.log('PageResponse from API:', res); 
+        this.customers = res.content;
+        this.loading = false;
       },
-      error: (err)=>{
-        console.log("Failed to laod the customers ", err)
+      error: (err) => {
+        console.error(err);
+        this.error = 'Failed to load customers';
+        this.loading = false;
       }
-    })
+    });
+  }
+
+  editCustomer(customer: Customer) {
+    console.log('Edit', customer);
+    // later: open modal or navigate to edit page
+  }
+
+  deleteCustomer(id: string) {
+    this.customerService.delete(id).subscribe({
+      next: () => {
+        this.customers = this.customers.filter(c => c.id !== id);
+      },
+      error: (err) => {
+        console.error(err);
+        this.error = 'Failed to delete customer';
+      }
+    });
   }
 }
