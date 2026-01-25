@@ -16,8 +16,6 @@ export const initialState: CustomerState = {
 
 export const customerReducer = createReducer(
   initialState,
-
-  // Load
   on(CustomerActions.loadCustomers, (state) => ({
     ...state,
     loading: true,
@@ -33,14 +31,10 @@ export const customerReducer = createReducer(
     loading: false,
     error
   })),
-
-  // Edit
   on(CustomerActions.editCustomer, (state, { customer }) => ({
     ...state,
     customers: state.customers.map(c => c.id === customer.id ? customer : c)
   })),
-
-  // Delete
   on(CustomerActions.deleteCustomer, (state, { id }) => ({
     ...state,
     customers: state.customers.filter(c => c.id !== id)
