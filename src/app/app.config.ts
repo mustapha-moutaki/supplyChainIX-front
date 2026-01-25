@@ -22,6 +22,7 @@ export const appConfig: ApplicationConfig = {
     ),
 
     
+    
     provideStore({
       customers: customerReducer
     }),
