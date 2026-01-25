@@ -4,6 +4,7 @@ import { environment } from "../../environments/environment.development";
 import { Observable } from "rxjs";
 import { Customer } from "../core/models/customer.model";
 import { PageResponse } from "../core/models/pageResponse.model";
+import { map } from "rxjs/operators";
 
 @Injectable({ providedIn: 'root'})
 
@@ -12,8 +13,14 @@ export class CustomerApi{
     private readonly url = `${environment.apiBaseUrl}/customers`;
 
 
-    // get all Customers
-    getAll(): Observable<PageResponse<Customer>>{
-        return this.http.get<PageResponse<Customer>>(this.url);
-    }
+    getAll(): Observable<PageResponse<Customer>> {
+  return this.http.get<any>(this.url).pipe(
+    map(res => res.data)
+  );
+}
+
+delete(id: string): Observable<void> {
+  return this.http.delete<void>(`${this.url}/${id}`);  
+}
+
 }
