@@ -15,7 +15,42 @@ export class CustomerEffects {
       mergeMap(() =>
         this.customerService.getAll().pipe(
           map(res => CustomerActions.loadCustomersSuccess({ customers: res.content })),
-          catchError(() => of(CustomerActions.loadCustomersFailure({ error: 'Failed to load customers' })))
+          catchError(() => of(CustomerActions.loadCustomersFailure({ error: '' })))
+        )
+      )
+    )
+  );
+
+
+  deleteCustomer$ = createEffect(() =>
+  this.actions$.pipe(
+    ofType(CustomerActions.deleteCustomer),
+    mergeMap(({ id }) =>
+      this.customerService.delete(id).pipe(
+        map(() => CustomerActions.deleteCustomerSuccess({ id })),
+        catchError(() =>
+          of(CustomerActions.deleteCustomerFailure({ error: 'Delete customer failed' }))
+        )
+      )
+    )
+  )
+);
+
+  createCustomer$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CustomerActions.createCustomer),
+      mergeMap(({ customer }) =>
+        this.customerService.create(customer).pipe(
+          map((newCustomer) =>
+            CustomerActions.createCustomerSuccess({ customer: newCustomer })
+          ),
+          catchError(() =>
+            of(
+              CustomerActions.createCustomerFailure({
+                error: 'Create customer failed',
+              })
+            )
+          )
         )
       )
     )

@@ -38,5 +38,30 @@ export const customerReducer = createReducer(
   on(CustomerActions.deleteCustomer, (state, { id }) => ({
     ...state,
     customers: state.customers.filter(c => c.id !== id)
-  }))
+  })),
+
+    on(CustomerActions.deleteCustomerFailure, (state, { error }) => ({
+    ...state,
+    error
+    })),
+
+
+    // ceate customer reducers
+
+    on(CustomerActions.createCustomer, (state)=>({
+      ...state,
+      loading: true
+    })),
+
+    on(CustomerActions.createCustomerSuccess, (state, { customer }) => ({
+      ...state,
+      customers: [...state.customers, customer],
+      loading: false
+    })),
+
+    on(CustomerActions.createCustomerFailure, (state, { error }) => ({
+      ...state,
+      loading: false,
+      error
+    }))
 );
