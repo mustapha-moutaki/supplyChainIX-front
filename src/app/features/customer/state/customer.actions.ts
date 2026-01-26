@@ -23,3 +23,19 @@ export const deleteCustomer = createAction(
   '[Customer] Delete Customer',
   props<{ id: string }>()
 );
+
+// Delete Customer - Success
+export const deleteCustomerSuccess = createAction(
+  '[Customer] Delete Customer Success',
+  props<{ id: string }>()
+);
+
+// Delete Customer - Failure
+export const deleteCustomerFailure = createAction(
+  '[Customer] Delete Customer Failure',
+  props<{ error: string }>()
+);
+
+
+
+
