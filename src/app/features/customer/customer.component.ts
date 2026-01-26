@@ -5,13 +5,14 @@ import { Customer } from '../../core/models/customer.model';
 import * as CustomerActions from './state/customer.actions';
 import * as CustomerSelectors from './state/customer.selectors';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from "@angular/router";
 
 @Component({
   standalone: true,
   selector: 'app-customer',
   templateUrl: './customer.component.html',
   styleUrls: ['./customer.component.css'],
-  imports: [CommonModule]
+  imports: [CommonModule, RouterLink]
 })
 export class CustomerComponent implements OnInit {
 

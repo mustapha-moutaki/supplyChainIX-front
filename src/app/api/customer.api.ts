@@ -23,6 +23,10 @@ delete(id: string): Observable<void> {
   return this.http.delete<void>(`${this.url}/${id}`);  
 }
 
+// create customer
+create(customer: Customer): Observable<Customer>{
+  return this.http.post<Customer>(this.url, customer)
+}
 
 
 }

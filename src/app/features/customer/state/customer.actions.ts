@@ -37,5 +37,21 @@ export const deleteCustomerFailure = createAction(
 );
 
 
+// create customer
+export const createCustomer = createAction(
+    '[Customer] Create Customer',
+    props<{ customer: Customer }>()
+)
 
+// create custoenr success
+export const createCustomerSuccess = createAction(
+    '[Customer] Create Customer Success',
+    props<{ customer: Customer }>()
+)
+
+// create customer failure
+export const createCustomerFailure = createAction(
+  '[Customer] Create Customer Failure',
+  props<{ error: string }>()
+)
 

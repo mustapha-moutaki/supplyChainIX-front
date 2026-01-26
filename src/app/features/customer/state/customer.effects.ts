@@ -36,4 +36,23 @@ export class CustomerEffects {
   )
 );
 
+  createCustomer$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CustomerActions.createCustomer),
+      mergeMap(({ customer }) =>
+        this.customerService.create(customer).pipe(
+          map((newCustomer) =>
+            CustomerActions.createCustomerSuccess({ customer: newCustomer })
+          ),
+          catchError(() =>
+            of(
+              CustomerActions.createCustomerFailure({
+                error: 'Create customer failed',
+              })
+            )
+          )
+        )
+      )
+    )
+  );
 }

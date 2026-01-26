@@ -20,4 +20,9 @@ export class CustomerService{
         return this.customerApi.delete(id);
     }
     
+
+    // create customer service method
+    create(customer: Customer): Observable<Customer>{
+        return this.customerApi.create(customer)
+    }
 }
