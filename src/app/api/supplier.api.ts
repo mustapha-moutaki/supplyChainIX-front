@@ -10,8 +10,10 @@
     private http = inject(HttpClient);
     private readonly url = `${environment.apiBaseUrl}/suppliers`;
 
-  getAll(): Observable<Supplier[]> {
-    return this.http.get<any>(this.url).pipe(
+  getAll(name? : string): Observable<Supplier[]> {
+    return this.http.get<any>(this.url, {
+      params: name ? { name } : {}
+    }).pipe(
       map(res => {
         const suppliers = res.content || []; 
         

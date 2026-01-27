@@ -7,9 +7,14 @@ import { Supplier } from "../models/supplier.model";
 export class SupplierService {
     private supplierApi = inject(SupplierApi);
 
-    getSuppliers(): Observable<Supplier[]> {
-        return this.supplierApi.getAll();
+    // getSuppliers(): Observable<Supplier[]> {
+    //     return this.supplierApi.getAll();
+    // }
+    
+    getSuppliers(name?: string): Observable<Supplier[]> {
+    return this.supplierApi.getAll(name);
     }
+
 
     creatSupplier(supplier: Supplier):Observable<Supplier>{
         return this.supplierApi.create(supplier);

@@ -1,8 +1,11 @@
-import { Component, OnInit, signal, inject, WritableSignal } from '@angular/core';
+import { Component, OnInit, signal, inject, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SupplierService } from '../../core/service/supplier.service';
 import { Supplier } from '../../core/models/supplier.model';
 import { CreateSupplierComponent } from '../../shared/modal/supplier-modals/create-modal/create-supplier.component';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-supplier',
@@ -12,81 +15,103 @@ import { CreateSupplierComponent } from '../../shared/modal/supplier-modals/crea
   styleUrl: './supplier.component.css'
 })
 export class SupplierComponent implements OnInit {
-
   private supplierService = inject(SupplierService);
+  private destroyRef = inject(DestroyRef); // For clean subscription cleanup
 
   suppliers = signal<Supplier[]>([]);
   loading = signal<boolean>(false);
+  searchTerm = signal('');
 
-  // THIS controls the modal
+  // Modal controls
   isCreateModalOpen = signal(false);
+  selectedSupplier = signal<Supplier | null>(null);
+
+  private searchSubject = new Subject<string>();
 
   ngOnInit(): void {
+    // Setup Debounced Search
+    this.searchSubject.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      takeUntilDestroyed(this.destroyRef) // Automatically unsubscribes
+    ).subscribe(value => {
+      this.loadSuppliers(value);
+    });
+
     this.loadSuppliers();
   }
 
-  loadSuppliers() {
+  // FIXED: Passing string directly instead of an object
+  loadSuppliers(name?: string) {
     this.loading.set(true);
-    this.supplierService.getSuppliers().subscribe({
+    
+    // Based on your error, the service wants: getSuppliers(string | undefined)
+    this.supplierService.getSuppliers(name).subscribe({
       next: (data) => {
         this.suppliers.set(data);
         this.loading.set(false);
       },
-      error: () => this.loading.set(false)
+      error: (err) => {
+        console.error("Search failed", err);
+        this.loading.set(false);
+      }
     });
   }
 
-  //  open modal
+  onSearch(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    this.searchTerm.set(value);
+    this.searchSubject.next(value);
+  }
+
+  // Triggered by the "Search" button
+  onSearchButtonClick() {
+    this.loadSuppliers(this.searchTerm());
+  }
+
+  // Clear search and reload everything
+  resetSearch() {
+    this.searchTerm.set('');
+    this.loadSuppliers('');
+  }
+
+  // --- Modal Logic ---
   openCreateModal() {
-     this.selectedSupplier.set(null);  
+    this.selectedSupplier.set(null);
     this.isCreateModalOpen.set(true);
   }
 
-  //  close modal
   closeCreateModal() {
     this.isCreateModalOpen.set(false);
   }
 
-  // to update the list
-  onSupplierCreated(supplier: Supplier) {
+  openEditModal(supplier: Supplier) {
+    this.selectedSupplier.set(supplier);
+    this.isCreateModalOpen.set(true);
+  }
 
-   this.suppliers.update(list => [...list, supplier]);
-}
+  // --- CRUD Operations ---
+  onSupplierCreated(supplier: Supplier) {
+    this.suppliers.update(list => [...list, supplier]);
+  }
 
   deleteSupplier(id: string | undefined) {
-      if (!id) return;
-
-  this.supplierService.deleteSupplier(id).subscribe({
-    next: () => {
-  
-      this.suppliers.update(list => list.filter(s => s.id !== id));
-    
-    },
-    error: (err) => {
-      console.log("Failed to delete this supplier", err);
+    if (!id) return;
+    if (confirm('Are you sure you want to delete this supplier?')) {
+      this.supplierService.deleteSupplier(id).subscribe({
+        next: () => this.suppliers.update(list => list.filter(s => s.id !== id)),
+        error: (err) => console.error("Delete failed", err)
+      });
     }
-  });
-}
+  }
 
-
-// edit supplier
-editSupplier(id:string, supplier:Supplier){
-  this.supplierService.editSupplier(id, supplier).subscribe({
-    next: ()=>{
-        this.loadSuppliers();
-        console.log("the data refreshed successfully ")
-    },
-    error:(err)=>{
-      console.log("Failed to update the data of this user ", err)
-    }
-  })
-}
-
-
-selectedSupplier = signal<Supplier | null>(null);
-openEditModal(supplier: Supplier) {
-  this.selectedSupplier.set(supplier);   // store selected supplier
-  this.isCreateModalOpen.set(true);      // open modal
-}
-
+  editSupplier(id: string, supplier: Supplier) {
+    this.supplierService.editSupplier(id, supplier).subscribe({
+      next: () => {
+        this.loadSuppliers(this.searchTerm()); // Keep current search view
+        this.closeCreateModal();
+      },
+      error: (err) => console.error("Update failed", err)
+    });
+  }
 }
