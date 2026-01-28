@@ -1,15 +1,16 @@
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormsModule, FormGroup } from '@angular/forms';
 
 import { RawMaterialService } from '../../core/service/raw-material.service';
 import { RawMaterial } from '../../core/models/raw-material.model';
 import { CreateRawMaterial } from '../../core/models/create-raw-material.model';
-
+import { ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-raw-material',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule],
   templateUrl: './raw-material.component.html',
 })
 export class RawMaterialComponent {
@@ -18,7 +19,15 @@ export class RawMaterialComponent {
   // Dependencies
  
   private readonly rawMaterialService = inject(RawMaterialService);
+  private readonly router = inject(Router);
 
+  onEdit(id: string | undefined): void{
+    if(id){
+      // console.log(id); just to verify id is received
+      this.router.navigate(['dashboard/raw-material/edit', id]);
+      // this.router.navigate(['/dashboard', id]);
+    }
+  }
  
   // State (Signals)
  
@@ -34,6 +43,9 @@ export class RawMaterialComponent {
   readonly totalPages = signal(0);
 
  
+
+  // edit state
+
   // Create form state
  
   readonly showCreateForm = signal(false);

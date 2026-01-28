@@ -1,0 +1,87 @@
+    <div class="container mx-auto p-6">
+    
+    <!-- Header Section -->
+    <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Edit Raw Material</h1>
+        <p class="text-gray-600">Modify the details of your material below.</p>
+    </div>
+
+    <!-- Main Edit Card -->
+    <div class="bg-white border rounded-lg shadow-sm p-6">
+        
+        <!-- Loading State -->
+        <div *ngIf="loading() && !editForm.dirty" class="text-center py-6">
+        <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600"></div>
+        </div>
+
+        <!-- Error Alert -->
+        <div *ngIf="error()" class="mb-4 p-3 rounded bg-red-50 text-red-700 text-sm border border-red-200">
+        {{ error() }}
+        </div>
+
+        <!-- Reactive Form -->
+        <form [formGroup]="editForm" (ngSubmit)="onSubmit()" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <!-- Name -->
+        <div class="flex flex-col gap-1">
+            <label class="text-sm font-medium text-gray-700">Name</label>
+            <input type="text" formControlName="name"
+            class="rounded-lg border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 px-4 py-2 border"/>
+        </div>
+
+        <!-- Stock -->
+        <div class="flex flex-col gap-1">
+            <label class="text-sm font-medium text-gray-700">Stock</label>
+            <input type="number" formControlName="stock"
+            class="rounded-lg border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 px-4 py-2 border"/>
+        </div>
+
+        <!-- Min Stock -->
+        <div class="flex flex-col gap-1">
+            <label class="text-sm font-medium text-gray-700">Min Stock</label>
+            <input type="number" formControlName="stockMin"
+            class="rounded-lg border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 px-4 py-2 border"/>
+        </div>
+
+        <!-- Unit Price -->
+        <div class="flex flex-col gap-1">
+            <label class="text-sm font-medium text-gray-700">Unit Price</label>
+            <input type="number" formControlName="unitPrice" step="1"
+            class="rounded-lg border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 px-4 py-2 border"/>
+        </div>
+
+        <!-- Unit -->
+        <div class="flex flex-col gap-1">
+            <label class="text-sm font-medium text-gray-700">Unit</label>
+            <select formControlName="unit"
+            class="rounded-lg border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 px-4 py-2 border">
+            <option value="piece">Piece</option>
+            <option value="kg">Kg</option>
+            <option value="liter">Liter</option>
+            </select>
+        </div>
+
+        <!-- Description -->
+        <div class="md:col-span-3 flex flex-col gap-1">
+            <label class="text-sm font-medium text-gray-700">Description</label>
+            <textarea formControlName="description"
+            class="rounded-lg border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 px-4 py-2 border"
+            rows="3"></textarea>
+        </div>
+
+        <!-- Actions -->
+        <div class="md:col-span-3 flex justify-end gap-3 mt-4 border-t pt-6">
+            <button type="button" (click)="goBack()"
+            class="px-5 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition">
+            Cancel
+            </button>
+
+            <button type="submit" [disabled]="editForm.invalid || loading()"
+            class="px-8 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 disabled:opacity-50 transition">
+            {{ loading() ? 'Saving...' : 'Save Changes' }}
+            </button>
+        </div>
+
+        </form>
+    </div>
+    </div>
