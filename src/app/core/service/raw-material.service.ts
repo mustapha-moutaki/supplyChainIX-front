@@ -27,4 +27,15 @@ export class RawMaterialService{
     return this.rawMaterialApi.create(rawMaterial);
   }
 
+  // edit raw material
+  edit(id: string, rawMaterial: RawMaterial): Observable<RawMaterial>{
+    return this.rawMaterialApi.edit(id, rawMaterial);
+  }
+
+  getById(id: string): Observable<RawMaterial> {
+  // Use your existing url variable
+  return this.rawMaterialApi.getById(id);
+}
+  
+
 }
