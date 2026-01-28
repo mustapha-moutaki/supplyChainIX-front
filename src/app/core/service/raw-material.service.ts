@@ -27,4 +27,10 @@ export class RawMaterialService{
     return this.rawMaterialApi.create(rawMaterial);
   }
 
+  // edit raw material
+  edit(id: string, rawMaterial: RawMaterial): Observable<RawMaterial>{
+    return this.rawMaterialApi.edit(id, rawMaterial);
+  }
+  
+
 }
