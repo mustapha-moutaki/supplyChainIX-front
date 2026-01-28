@@ -7,6 +7,7 @@ import { RawMaterialComponent } from '../raw-material/raw-material.component';
 import { BillOfMaterialComponent } from '../bill-of-material/bill-of-material.component'
 import { CustomerComponent } from '../customer/customer.component';
 import { CustomerFormComponent } from '../customer/customer-form.component';
+import { RawMaterialEditComponent } from '../raw-material/raw-material-edit.component';
 export const DASHBOARD_ROUTES: Routes = [
   {
     path: '',
@@ -27,6 +28,10 @@ export const DASHBOARD_ROUTES: Routes = [
       {
         path: 'raw-material',
         component: RawMaterialComponent
+      },
+      {
+        path: 'raw-material/edit/:id',
+        component: RawMaterialEditComponent
       },
       {
           path: 'bill-of-materials',
