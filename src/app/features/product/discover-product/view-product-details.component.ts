@@ -20,7 +20,7 @@ export class ProductViewDetailsComponent implements OnInit {
     id: number | null = null;
     loading = false;
 
-    // Fixed: Changed NgOnInit to ngOnInit (lowercase 'n')
+    
     ngOnInit(): void {
         this.id = this.route.snapshot.paramMap.get('id') ? Number(this.route.snapshot.paramMap.get('id')) : null;
         if (this.id) {
@@ -32,7 +32,6 @@ export class ProductViewDetailsComponent implements OnInit {
         this.loading = true;
         this.productService.getProduct(productId).subscribe({
             next: (res: any) => {
-                // Accessing res.data based on the JSON structure you provided
                 this.productDetails = res.data; 
                 this.loading = false;
                 console.log(this.productDetails);
