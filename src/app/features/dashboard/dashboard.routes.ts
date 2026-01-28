@@ -8,6 +8,7 @@ import { BillOfMaterialComponent } from '../bill-of-material/bill-of-material.co
 import { CustomerComponent } from '../customer/customer.component';
 import { CustomerFormComponent } from '../customer/customer-form.component';
 import { RawMaterialEditComponent } from '../raw-material/raw-material-edit.component';
+import { ProductViewDetailsComponent } from '../product/discover-product/view-product-details.component';
 export const DASHBOARD_ROUTES: Routes = [
   {
     path: '',
@@ -20,6 +21,10 @@ export const DASHBOARD_ROUTES: Routes = [
       {
         path: 'products',
         component: ProductComponent
+      },
+      {
+        path: 'products/:id',
+        component: ProductViewDetailsComponent
       },
         {
         path: 'suppliers', // This creates the /dashboard/suppliers path

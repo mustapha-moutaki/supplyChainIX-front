@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../core/service/product.service';
@@ -6,6 +6,7 @@ import { Product } from '../../core/models/product.model';
 import { ModalComponent } from '../../shared/modal/modal.component';
 import { RawMaterial } from '../../core/models/raw-material.model';
 import { RawMaterialService } from '../../core/service/raw-material.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-product',
   standalone: true,
@@ -13,6 +14,8 @@ import { RawMaterialService } from '../../core/service/raw-material.service';
   templateUrl: './product.component.html',
 })
 export class ProductComponent implements OnInit {
+
+  private readonly router: Router = inject(Router);
   products: Product[] = [];
   loading = false;
   error = '';
@@ -147,5 +150,15 @@ export class ProductComponent implements OnInit {
         this.error = isEditing ? 'Failed to update product' : 'Failed to add product';
       }
     });
+  }
+
+
+
+
+  // selected product
+  viewProduct(id: number): void{
+    if(id){
+      this.router.navigate(['/dashboard/products/', id])
+    }
   }
 }
