@@ -40,5 +40,9 @@ export class RawMaterialAPi{
     return this.http.put<RawMaterial>(`${this.url}/${id}`, rawMaterial);
   }
 
+  getById(id: string): Observable<RawMaterial> {
+  // Use your existing url variable
+  return this.http.get<RawMaterial>(`${this.url}/${id}`);
+}
 
 }
