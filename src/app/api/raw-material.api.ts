@@ -35,4 +35,10 @@ export class RawMaterialAPi{
   }
 
 
+  // upate row material
+  edit(id: string, rawMaterial:RawMaterial): Observable<RawMaterial>{
+    return this.http.put<RawMaterial>(`${this.url}/${id}`, rawMaterial);
+  }
+
+
 }
