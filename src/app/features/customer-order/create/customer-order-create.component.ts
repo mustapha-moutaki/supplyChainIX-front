@@ -13,7 +13,6 @@ import { CustomerOrderCreate, ProductOrderCreate } from "../../../core/models/cu
 export class CustomerOrderCreateComponent {
   private readonly customerOrderService = inject(CustomerOrderService);
 
-  // Initialize the form model
   customerOrder: CustomerOrderCreate = {
     customerId: 0,
     productOrders: [
