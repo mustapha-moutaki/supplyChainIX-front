@@ -5,6 +5,7 @@ import { inject } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { PageResponse } from "../core/models/pageResponse.model";
 import { CustomerOrder } from "../core/models/customer-order";
+import { CustomerOrderCreate } from "../core/models/customer-order-create";
 
 @Injectable({ providedIn: 'root'})
 
@@ -18,4 +19,10 @@ export class CustomerOrderApi {
     getAllCustomersOrders(page: number = 0, size: number=10): Observable<PageResponse<CustomerOrder>>{
         return this.http.get<PageResponse<CustomerOrder>>(`${this.url}?page=${page}&size=${size}`);
     }
+
+    // create customerOrder
+    cerateCustomerOrder(order: CustomerOrderCreate): Observable<CustomerOrder>{
+        return this.http.post<CustomerOrder>(this.url, order);
+    }
+
 }

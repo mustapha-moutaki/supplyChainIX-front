@@ -1,12 +1,13 @@
 import { Component, inject, OnInit, Signal, signal } from '@angular/core';
 import { CustomerOrderService } from '../../core/service/customer-order.service';
 import { CustomerOrder } from '../../core/models/customer-order';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
+import { RouterLink } from "@angular/router"; 
 
 @Component({
   selector: 'app-customer-order',
   standalone: true,
-  imports: [CommonModule], 
+  imports: [CommonModule, RouterLink], 
   templateUrl: './customer-order.component.html',
   styleUrl: './customer-order.component.css'
 })

@@ -10,6 +10,7 @@ import { CustomerFormComponent } from '../customer/customer-form.component';
 import { RawMaterialEditComponent } from '../raw-material/raw-material-edit.component';
 import { ProductViewDetailsComponent } from '../product/discover-product/view-product-details.component';
 import { CustomerOrderComponent } from '../customer-order/customer-order.component';
+import { CustomerOrderCreateComponent } from '../customer-order/create/customer-order-create.component';
 export const DASHBOARD_ROUTES: Routes = [
   {
     path: '',
@@ -54,6 +55,10 @@ export const DASHBOARD_ROUTES: Routes = [
       {
         path: 'customers/orders',
         component: CustomerOrderComponent
+      },
+      {
+        path: 'customers/orders/new',
+        component: CustomerOrderCreateComponent
       }
 
 
