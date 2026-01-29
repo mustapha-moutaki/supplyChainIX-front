@@ -46,6 +46,25 @@ export class CustomerOrderComponent implements OnInit {
       });
   }
 
+
+  // delete CustomerOrder
+  deleteCustomerOrder(id: number): void{
+    console.log(id)
+    if(id){
+      if(confirm("Are you sure you want to delete this order?")){
+        this.customerOrderService.deleteCustomerOrder(id).subscribe({
+          next: ()=>{
+            console.log('Customer order deleted successfully');
+            this.loadOrders(); 
+          },
+          error: (err)=>{
+            console.error('Error deleting customer order', err);
+          }
+        });
+    }
+  }
+}
+
   // Methods to change pages
   nextPage(): void {
     if (this.pageNumber() + 1 < this.totalPages()) {

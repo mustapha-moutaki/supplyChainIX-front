@@ -17,4 +17,9 @@ export class CustomerOrderService{
     createCustomerOrder(order: CustomerOrderCreate): Observable<CustomerOrder>{
         return this.customerOrderApi.cerateCustomerOrder(order);
     }
+
+    // deleteCustomerOrder
+    deleteCustomerOrder(id: number): Observable<void>{
+        return this.customerOrderApi.deleteCustomerOrder(id)
+    }
 }

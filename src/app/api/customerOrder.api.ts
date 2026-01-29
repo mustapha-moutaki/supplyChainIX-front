@@ -6,6 +6,7 @@ import { map, Observable } from "rxjs";
 import { PageResponse } from "../core/models/pageResponse.model";
 import { CustomerOrder } from "../core/models/customer-order";
 import { CustomerOrderCreate } from "../core/models/customer-order-create";
+import { deleteCustomer } from "../features/customer/state/customer.actions";
 
 @Injectable({ providedIn: 'root'})
 
@@ -23,6 +24,12 @@ export class CustomerOrderApi {
     // create customerOrder
     cerateCustomerOrder(order: CustomerOrderCreate): Observable<CustomerOrder>{
         return this.http.post<CustomerOrder>(this.url, order);
+    }
+
+
+    // delete customerOrder
+    deleteCustomerOrder(id: number): Observable<void>{
+        return this.http.delete<void>(`${this.url}/${id}`);
     }
 
 }
