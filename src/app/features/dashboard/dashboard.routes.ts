@@ -9,6 +9,7 @@ import { CustomerComponent } from '../customer/customer.component';
 import { CustomerFormComponent } from '../customer/customer-form.component';
 import { RawMaterialEditComponent } from '../raw-material/raw-material-edit.component';
 import { ProductViewDetailsComponent } from '../product/discover-product/view-product-details.component';
+import { CustomerOrderComponent } from '../customer-order/customer-order.component';
 export const DASHBOARD_ROUTES: Routes = [
   {
     path: '',
@@ -49,6 +50,10 @@ export const DASHBOARD_ROUTES: Routes = [
       {
         path: 'customers/new',
         component: CustomerFormComponent
+      },
+      {
+        path: 'customers/orders',
+        component: CustomerOrderComponent
       }
 
 
