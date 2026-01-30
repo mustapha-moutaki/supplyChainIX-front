@@ -11,6 +11,7 @@ import { RawMaterialEditComponent } from '../raw-material/raw-material-edit.comp
 import { ProductViewDetailsComponent } from '../product/discover-product/view-product-details.component';
 import { CustomerOrderComponent } from '../customer-order/customer-order.component';
 import { CustomerOrderCreateComponent } from '../customer-order/create/customer-order-create.component';
+import { CustomerOrderEditComponent } from '../customer-order/edit/customer-order.component';
 export const DASHBOARD_ROUTES: Routes = [
   {
     path: '',
@@ -59,6 +60,10 @@ export const DASHBOARD_ROUTES: Routes = [
       {
         path: 'customers/orders/new',
         component: CustomerOrderCreateComponent
+      },
+       {
+        path: 'customers/orders/edit/:id',
+        component: CustomerOrderEditComponent
       }
 
 
