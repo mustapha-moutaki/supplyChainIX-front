@@ -32,4 +32,12 @@ export class CustomerOrderApi {
         return this.http.delete<void>(`${this.url}/${id}`);
     }
 
+    editCustomerOrder(id: number, order: CustomerOrderCreate): Observable<CustomerOrderCreate>{
+        return this.http.put<CustomerOrderCreate>(`${this.url}/${id}`, order)
+    }
+
+    getOrderById(id: number): Observable<CustomerOrder>{
+        return this.http.get<CustomerOrder>(`${this.url}/${id}`);
+    }
+
 }

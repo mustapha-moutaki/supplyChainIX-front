@@ -1,0 +1,120 @@
+<div class="max-w-4xl mx-auto p-4 md:p-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="space-y-8">
+    
+    <!-- Form Header & Order Identity -->
+    <div class="flex items-center justify-between border-b border-slate-100 pb-6">
+      <div>
+        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Modify Order</h2>
+        <div class="flex items-center gap-2 mt-1">
+          <span class="px-2 py-0.5 bg-indigo-50 text-indigo-600 text-xs font-bold rounded-md uppercase tracking-wider">Reference</span>
+          <p class="text-sm font-mono font-bold text-slate-500">ORD-{{ form.value.id }}</p>
+        </div>
+      </div>
+      
+      <div class="h-12 w-12 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-400">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Primary Order Info Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div class="space-y-2">
+        <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Order Status</label>
+        <div class="relative">
+          <input 
+            formControlName="status" 
+            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none"
+            placeholder="Set status..."
+          />
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <label class="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Delivery Method</label>
+        <div class="relative">
+          <input 
+            formControlName="delivery" 
+            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm font-bold text-slate-700 focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all outline-none"
+            placeholder="Shipping provider..."
+          />
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Items Section -->
+    <div class="space-y-4">
+      <div class="flex items-center gap-4">
+        <h3 class="text-sm font-black text-slate-900 uppercase tracking-widest">Line Items</h3>
+        <div class="h-[1px] flex-grow bg-slate-100"></div>
+      </div>
+
+      <div formArrayName="productOrders" class="space-y-4">
+        <div *ngFor="let p of productOrders.controls; let i = index"
+             [formGroupName]="i"
+             class="group bg-white border border-slate-100 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-wrap md:flex-nowrap items-center gap-6">
+          
+          <!-- Product ID Display -->
+          <div class="flex-shrink-0">
+            <div class="h-10 w-10 rounded-xl bg-slate-900 flex items-center justify-center text-white text-[10px] font-black">
+              ID:{{ p.value.productId }}
+            </div>
+          </div>
+
+          <!-- Inputs Group -->
+          <div class="grid grid-cols-2 gap-4 flex-grow">
+            <div class="space-y-1">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Quantity</span>
+              <input 
+                type="number" 
+                formControlName="quantity" 
+                class="w-full bg-transparent border-b border-slate-200 py-1 text-sm font-black text-slate-800 focus:border-indigo-500 transition-colors outline-none"
+              />
+            </div>
+            
+            <div class="space-y-1">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Unit Price</span>
+              <div class="flex items-center gap-1">
+                <span class="text-slate-400 font-bold text-sm">$</span>
+                <input 
+                  type="number" 
+                  formControlName="unitPrice" 
+                  class="w-full bg-transparent border-b border-slate-200 py-1 text-sm font-black text-slate-800 focus:border-indigo-500 transition-colors outline-none"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Subtotal Decoration -->
+          <div class="hidden lg:block text-right">
+             <p class="text-[10px] font-bold text-slate-300 uppercase italic">Row Subtotal</p>
+             <p class="text-sm font-black text-indigo-400">
+               {{ (p.get('quantity')?.value * p.get('unitPrice')?.value) | currency }}
+             </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Section -->
+    <div class="pt-6 border-t border-slate-100 flex items-center justify-end gap-4">
+      <button 
+        type="button"
+        class="px-6 py-3 rounded-xl text-sm font-bold text-slate-500 hover:bg-slate-50 transition-all">
+        Discard Changes
+      </button>
+      
+      <button 
+        type="submit"
+        [disabled]="form.invalid"
+        class="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-200 text-white px-8 py-3 rounded-xl font-bold shadow-xl shadow-indigo-100 transition-all active:scale-95 group">
+        <span>Save Order Changes</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+      </button>
+    </div>
+
+  </form>
+</div>

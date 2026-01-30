@@ -2,7 +2,7 @@ import { Component, inject, OnInit, Signal, signal } from '@angular/core';
 import { CustomerOrderService } from '../../core/service/customer-order.service';
 import { CustomerOrder } from '../../core/models/customer-order';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from "@angular/router"; 
+import { Router, RouterLink } from "@angular/router"; 
 
 @Component({
   selector: 'app-customer-order',
@@ -13,7 +13,7 @@ import { RouterLink } from "@angular/router";
 })
 export class CustomerOrderComponent implements OnInit {
   private readonly customerOrderService = inject(CustomerOrderService);
-
+  private readonly router = inject(Router)
   // Data
   orders = signal<CustomerOrder[]>([]);
   loading = signal(false);
@@ -64,6 +64,19 @@ export class CustomerOrderComponent implements OnInit {
     }
   }
 }
+
+
+
+// edit order
+editOrder(id: number): void {
+  if(id){
+    this.router.navigate(['dashboard/customers/orders/edit', id]);
+  }else{
+    console.error('Invalid order ID');
+  }
+}
+
+
 
   // Methods to change pages
   nextPage(): void {

@@ -49,9 +49,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req);
 };
 
-// NEW CHANGE: Function to handle token refresh logic
-// This prevents multiple simultaneous requests from all trying to refresh at once
-// NEW CHANGE: Properly type the parameters to fix TypeScript errors
+
 function handleTokenRefresh(
   request: HttpRequest<unknown>, 
   next: HttpHandlerFn, 
@@ -104,14 +102,3 @@ function handleTokenRefresh(
     );
   }
 }
-
-
-
-
-
-
-
-
-
-
-// end

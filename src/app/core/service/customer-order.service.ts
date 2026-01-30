@@ -22,4 +22,12 @@ export class CustomerOrderService{
     deleteCustomerOrder(id: number): Observable<void>{
         return this.customerOrderApi.deleteCustomerOrder(id)
     }
+
+    editCustomerOrder(id: number, order: CustomerOrderCreate): Observable<CustomerOrderCreate>{
+        return this.customerOrderApi.editCustomerOrder(id, order);
+    }
+
+    getOrderById(id: number): Observable<CustomerOrder>{
+        return this.customerOrderApi.getOrderById(id);
+    }
 }
